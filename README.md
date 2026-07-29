@@ -3,6 +3,9 @@
 Space-biology researcher — plant responses to spaceflight and the lunar/Martian environment (NASA GeneLab / OSDR ecosystem) — with **[The Collaborative Science Environment](https://www.cosecloud.com)**.
 
 ### 🚀 Project hubs
+
+**[CoSE Cloud](https://dr-richard-barker.github.io/CoSE_Cloud/)** — the umbrella hub and project directory for The Collaborative Science Environment. Scoped sub-hubs:
+
 - **[AstroBotany](https://dr-richard-barker.github.io/AstroBotany/)** — a focused hub of plant space-biology projects: growing and understanding plants beyond Earth.
 - **[Deep Space Agriculture](https://dr-richard-barker.github.io/DeepSpaceAg/)** — sustaining plants and people on long-duration missions: gas transport, health and life support beyond low Earth orbit.
 - **[CoSE Arcade](https://dr-richard-barker.github.io/cose-arcade/)** — original lunar & Martian browser games in the spirit of the classic Maxis sims (Lunar Habitat, lunar farming, Settlers of the Moon or Mars, Brute Bowl).
