@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoSE Academy: Space Exploration Modeling</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        space: {
+                            900: '#07080A', // Ultra deep space
+                            800: '#151922', // Card background
+                            700: '#232936', // Lighter borders
+                            accent: '#4FD1C5', // Teal/Cyan accent
+                            text: '#9CA3AF',   // Muted gray text
+                            highlight: '#E5E7EB'// Bright text
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #07080A; color: #E5E7EB; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #07080A; }
+        ::-webkit-scrollbar-thumb { background: #232936; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4FD1C5; }
+        
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #4FD1C5;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 0 10px rgba(79, 209, 197, 0.5);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #232936;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden font-sans">
+
+    <header class="bg-space-800 border-b border-space-700 p-4 flex justify-between items-center z-20 shrink-0 shadow-md">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded bg-space-accent/10 border border-space-accent flex items-center justify-center text-xl">
+                🌌
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-space-highlight tracking-tight">CoSE Academy</h1>
+                <p class="text-xs text-space-accent uppercase tracking-wider font-semibold">Educational Impact Assessment Portal</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <span id="saveIndicator" class="text-xs text-green-400 opacity-0 transition-opacity duration-300 flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                Data Saved
+            </span>
+            <button onclick="exportData()" class="text-sm bg-space-700 hover:bg-space-accent hover:text-space-900 px-4 py-2 rounded transition-colors">
+                Export Research Data (JSON)
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 flex overflow-hidden">
+        
+        <aside class="w-72 bg-space-800 border-r border-space-700 flex flex-col shrink-0 z-10">
+            <div class="p-4 border-b border-space-700">
+                <h2 class="text-sm font-semibold text-space-text uppercase tracking-wider">Course Modules</h2>
+            </div>
+            <nav id="moduleNav" class="flex-1 overflow-y-auto p-2 space-y-1">
+                <!-- Navigation items injected via JS -->
+            </nav>
+        </aside>
+
+        <section class="flex-1 overflow-y-auto p-8 relative scroll-smooth">
+            <div class="max-w-4xl mx-auto space-y-8 pb-20" id="mainContent">
+                <!-- Content injected via JS -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Restructured data to support quantitative (range) and qualitative (text) questions
+        const courseData = [
+            {
+                id: "mod_01",
+                icon: "🏗️",
+                title: "Lunar Habitat",
+                subtitle: "Regolith Shielding & Vertical Architecture",
+                scenario: "The lunar surface is subjected to extreme cosmic radiation and micro-meteoroid impacts. In this structural engineering simulator, you must design a sustainable colony that survives these hazards. You are tasked with balancing a 26-level superstructure against a 24-level sub-surface excavation into the regolith.",
+                url: "https://dr-richard-barker.github.io/cose-arcade/",
+                questions: {
+                    pre: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Self-Efficacy Assessment", text: "On a scale of 1-5, how confident are you in your ability to calculate the regolith depth required to block galactic cosmic rays (GCRs)?" },
+                        { id: "q2", type: "text", label: "Structural Trade-offs", text: "What do you perceive as the primary engineering trade-offs between building above ground versus excavating into the lunar surface?" }
+                    ],
+                    post: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Post-Efficacy Assessment", text: "After running the simulation, how confident are you in calculating required regolith depth for shielding?" },
+                        { id: "q2", type: "text", label: "Resource Allocation", text: "How did the transition zone between the surface and subsurface levels ultimately impact your structural resource allocation?" }
+                    ]
+                }
+            },
+            {
+                id: "mod_02",
+                icon: "🚜",
+                title: "Boring Mining",
+                subtitle: "Autonomous Extraction & Strategic Competition",
+                scenario: "Securing in-situ resources is the foundation of deep space independence. This simulator models the autonomous extraction of lunar regolith using mechanized fleets. You must navigate geopolitical pressures, manage equipment degradation, and outmaneuver competitors to secure extraction zones.",
+                url: "https://dr-richard-barker.github.io/lunar-arcade/games/boring-mining/",
+                questions: {
+                    pre: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Strategic Priorities", text: "Rate the importance (1=Low, 5=High) of autonomous equipment maintenance compared to rapid resource acquisition." },
+                        { id: "q2", type: "text", label: "Competitive Dynamics", text: "How do you anticipate rival corporate or state actors will influence your initial resource extraction strategy?" }
+                    ],
+                    post: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Revised Strategic Priorities", text: "Post-simulation: Rate the importance of autonomous equipment maintenance compared to rapid acquisition." },
+                        { id: "q2", type: "text", label: "Tactical Pivots", text: "How did real-time competition alter your initial telemetry and drilling path in the simulation?" }
+                    ]
+                }
+            },
+            {
+                id: "mod_03",
+                icon: "🌾",
+                title: "Lunar Farm",
+                subtitle: "Closed-Loop Agricultural Resource Management",
+                scenario: "Establishing food security requires precise control over biological variables. This module models a controlled environment agriculture (CEA) system. You will deploy 8x8 grow halls to cultivate vital crops, balancing yield against the high power draw of continuous LED lighting and strict water constraints.",
+                url: "https://dr-richard-barker.github.io/cose-arcade/",
+                questions: {
+                    pre: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Constraint Hypothesis", text: "Rate your agreement (1=Strongly Disagree, 5=Strongly Agree): 'The power draw of artificial lighting is a more severe constraint than water reclamation in lunar agriculture.'" },
+                        { id: "q2", type: "text", label: "System Stability", text: "In a closed-loop system, which resource loop do you expect to be the most difficult to stabilize and why?" }
+                    ],
+                    post: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Constraint Conclusion", text: "Rate your agreement post-simulation: 'The power draw of artificial lighting is a more severe constraint than water reclamation.'" },
+                        { id: "q2", type: "text", label: "Yield Efficiency", text: "Which crop selection proved to be the most efficient for your base's survival, and how did it impact your power grid?" }
+                    ]
+                }
+            },
+            {
+                id: "mod_04",
+                icon: "🎲",
+                title: "Settlers of Moon/Mars",
+                subtitle: "Aerospace Logistics & Biotech Settlement",
+                scenario: "Early multi-planetary settlement requires balancing aerospace engineering with space biology. This simulator tests decision-making across settlement phases. Navigate the variables of mycoponic deployment, supply chain logistics, and atmospheric processing to build a self-sustaining outpost.",
+                url: "https://dr-richard-barker.github.io/cose-arcade/",
+                questions: {
+                    pre: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Risk Readiness", text: "On a scale of 1-5, how prepared are you to manage stochastic (random) mechanical failures during mission planning?" },
+                        { id: "q2", type: "text", label: "Cascading Failures", text: "What specific cascading failures might occur if a primary biotech life support system experiences a 20% efficiency drop?" }
+                    ],
+                    post: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Post-Simulation Risk Readiness", text: "After playing, how prepared do you feel to manage stochastic mechanical failures?" },
+                        { id: "q2", type: "text", label: "Adaptive Strategy", text: "Describe a specific instance where a random event in the simulator forced you to completely pivot your settlement strategy." }
+                    ]
+                }
+            },
+            {
+                id: "mod_05",
+                icon: "🏈",
+                title: "Brute Bowl",
+                subtitle: "Stochastic Probability & Constraint Modeling",
+                scenario: "Complex missions require rigorous stress-testing of team dynamics. Utilizing LLM-assisted reasoning, this tactical modeling tool visualizes resource allocation in a highly constrained environment. Map dice-probability interactions to observe how teams perform under extreme pressure.",
+                url: "https://dr-richard-barker.github.io/cose-arcade/",
+                questions: {
+                    pre: [
+                        { id: "q1", type: "range", min: 1, max: 100, label: "Adaptability Index", text: "Estimate (0-100%): What percentage of mission success relies on on-the-fly adaptability versus rigid pre-planning?" },
+                        { id: "q2", type: "text", label: "Spatial Constraints", text: "How does visualizing a physically constrained environment influence your approach to tactical resource allocation?" }
+                    ],
+                    post: [
+                        { id: "q1", type: "range", min: 1, max: 100, label: "Revised Adaptability Index", text: "Post-simulation estimate (0-100%): Importance of on-the-fly adaptability vs. rigid pre-planning." },
+                        { id: "q2", type: "text", label: "Probability Realities", text: "How did the simulated dice-probability interactions challenge your initial assumptions about risk mitigation?" }
+                    ]
+                }
+            },
+            {
+                id: "mod_06",
+                icon: "⚔️",
+                title: "Lunar Red Alert",
+                subtitle: "Vacuum-Environment Resource Conflict",
+                scenario: "This advanced desktop simulator explores resource extraction and asset defense in a strict lunar vacuum setting. Built on the open-source OpenRA engine, users must account for the unique physics and logistical challenges of managing supply lines without an atmosphere.",
+                url: "https://dr-richard-barker.github.io/Lunar_Red_Alert/",
+                questions: {
+                    pre: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Vulnerability Assessment", text: "On a scale of 1-5, rate the anticipated vulnerability of extended supply lines in a vacuum environment." },
+                        { id: "q2", type: "text", label: "Physics Constraints", text: "How do you expect the absence of atmospheric friction and pressure to alter the deployment of heavy infrastructure?" }
+                    ],
+                    post: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Post-Vulnerability Assessment", text: "After the simulation, rate the actual vulnerability of extended supply lines in a vacuum environment (1-5)." },
+                        { id: "q2", type: "text", label: "Logistical Bottlenecks", text: "What specific logistical bottlenecks emerged as your base expanded across the lunar terrain?" }
+                    ]
+                }
+            }
+        ];
+
+        let currentModuleIndex = 0;
+        let researchData = JSON.parse(localStorage.getItem('cose_research_data')) || {};
+
+        function saveData(moduleId, phase, questionId, value) {
+            if (!researchData[moduleId]) researchData[moduleId] = {};
+            researchData[moduleId][`${phase}_${questionId}`] = value;
+            localStorage.setItem('cose_research_data', JSON.stringify(researchData));
+            
+            // Show save indicator
+            const indicator = document.getElementById('saveIndicator');
+            indicator.classList.remove('opacity-0');
+            setTimeout(() => indicator.classList.add('opacity-0'), 2000);
+
+            // Update range display if it's a range input
+            const displayEl = document.getElementById(`val_${moduleId}_${phase}_${questionId}`);
+            if(displayEl) displayEl.textContent = value;
+        }
+
+        function getData(moduleId, phase, questionId, type, min) {
+            if (researchData[moduleId] && researchData[moduleId][`${phase}_${questionId}`] !== undefined) {
+                return researchData[moduleId][`${phase}_${questionId}`];
+            }
+            return type === 'range' ? min : "";
+        }
+
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(researchData, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href",     dataStr);
+            downloadAnchorNode.setAttribute("download", "cose_assessment_export.json");
+            document.body.appendChild(downloadAnchorNode); // required for firefox
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        function renderSidebar() {
+            const nav = document.getElementById('moduleNav');
+            nav.innerHTML = '';
+            
+            courseData.forEach((mod, index) => {
+                const isActive = index === currentModuleIndex;
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-3 rounded-lg mb-1 flex items-center gap-3 transition-all ${isActive ? 'bg-space-700 border-l-4 border-space-accent text-white' : 'text-space-text hover:bg-space-900 hover:text-space-highlight border-l-4 border-transparent'}`;
+                btn.onclick = () => loadModule(index);
+                btn.innerHTML = `
+                    <span class="text-xl">${mod.icon}</span>
+                    <div class="truncate">
+                        <div class="font-medium text-sm truncate">${mod.title}</div>
+                        <div class="text-[10px] uppercase tracking-wider opacity-70">Module 0${index + 1}</div>
+                    </div>
+                `;
+                nav.appendChild(btn);
+            });
+        }
+
+        function buildAssessmentBlock(module, phase, title, description) {
+            if (!module.questions || !module.questions[phase]) return '';
+
+            let html = `
+                <div class="bg-space-800 border border-space-700 rounded-xl p-6 shadow-lg mb-8">
+                    <div class="border-b border-space-700 pb-4 mb-6">
+                        <h3 class="text-xl font-bold text-space-highlight">${title}</h3>
+                        <p class="text-sm text-space-text mt-1">${description}</p>
+                    </div>
+                    <div class="space-y-8">
+            `;
+
+            module.questions[phase].forEach(q => {
+                const val = getData(module.id, phase, q.id, q.type, q.min);
+                
+                html += `<div class="bg-space-900/50 p-5 rounded-lg border border-space-700/50">
+                            <label class="block text-space-accent font-semibold text-sm mb-2 uppercase tracking-wide">${q.label}</label>
+                            <p class="text-space-highlight text-base mb-4">${q.text}</p>`;
+
+                if (q.type === 'range') {
+                    html += `
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs text-space-text font-medium">${q.min}</span>
+                            <input type="range" min="${q.min}" max="${q.max}" value="${val}" 
+                                class="flex-1"
+                                oninput="saveData('${module.id}', '${phase}', '${q.id}', this.value)">
+                            <span class="text-xs text-space-text font-medium">${q.max}</span>
+                        </div>
+                        <div class="text-center mt-2 text-sm text-space-text">
+                            Current Value: <span id="val_${module.id}_${phase}_${q.id}" class="text-space-accent font-bold text-lg">${val}</span>
+                        </div>
+                    `;
+                } else if (q.type === 'text') {
+                    html += `
+                        <textarea 
+                            class="w-full bg-space-900 border border-space-700 rounded-lg p-3 text-space-highlight text-sm focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-all resize-y"
+                            rows="3"
+                            placeholder="Enter your detailed observations here..."
+                            onchange="saveData('${module.id}', '${phase}', '${q.id}', this.value)"
+                        >${val}</textarea>
+                    `;
+                }
+                html += `</div>`;
+            });
+
+            html += `</div></div>`;
+            return html;
+        }
+
+        function loadModule(index) {
+            currentModuleIndex = index;
+            const module = courseData[index];
+            renderSidebar(); // Update active state in sidebar
+
+            const container = document.getElementById('mainContent');
+            
+            let html = `
+                <!-- Header/Briefing -->
+                <div class="mb-10">
+                    <div class="flex items-center gap-4 mb-4">
+                        <span class="text-5xl">${module.icon}</span>
+                        <div>
+                            <h2 class="text-4xl font-extrabold text-white tracking-tight">${module.title}</h2>
+                            <h3 class="text-lg text-space-accent font-medium mt-1">${module.subtitle}</h3>
+                        </div>
+                    </div>
+                    <div class="bg-space-900 border-l-4 border-space-accent p-5 rounded-r-lg text-space-highlight leading-relaxed text-lg">
+                        ${module.scenario}
+                    </div>
+                </div>
+            `;
+
+            // Pre-Assessment
+            html += buildAssessmentBlock(
+                module, 'pre', 
+                'Phase 1: Baseline Hypothesis', 
+                'Complete this assessment before launching the simulation to establish your baseline understanding.'
+            );
+
+            // The External Launchpad (Replaces Iframe)
+            html += `
+                <div class="relative bg-gradient-to-r from-space-800 to-space-900 border border-space-700 rounded-xl p-8 my-12 text-center overflow-hidden shadow-2xl group">
+                    <div class="absolute inset-0 bg-space-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <h3 class="text-2xl font-bold text-white mb-2 relative z-10">Ready to Test Your Hypothesis?</h3>
+                    <p class="text-space-text mb-6 max-w-xl mx-auto relative z-10">Launch the high-fidelity simulator. The environment will open in a new, distraction-free tab. Return here once your session is complete.</p>
+                    
+                    <a href="${module.url}" target="_blank" rel="noopener noreferrer" 
+                       class="relative z-10 inline-flex items-center gap-2 bg-space-accent text-space-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(79,209,197,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]">
+                        Launch Simulator
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                </div>
+            `;
+
+            // Post-Assessment
+            html += buildAssessmentBlock(
+                module, 'post', 
+                'Phase 2: Post-Simulation Analysis', 
+                'After completing your session, record how the modeled constraints altered your initial hypothesis.'
+            );
+
+            container.innerHTML = html;
+        }
+
+        // Initialize App
+        window.onload = () => {
+            loadModule(0);
+        };
+    </script>
+</body>
+</html>
