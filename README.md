@@ -8,7 +8,7 @@ Space-biology researcher — plant responses to spaceflight and the lunar/Martia
 
 - **[AstroBotany](https://dr-richard-barker.github.io/AstroBotany/)** — a focused hub of plant space-biology projects: growing and understanding plants beyond Earth.
 - **[Deep Space Agriculture](https://dr-richard-barker.github.io/DeepSpaceAg/)** — sustaining plants and people on long-duration missions: gas transport, health and life support beyond low Earth orbit.
-- **[CoSE_academy_portal](https://github.com/dr-richard-barker/dr-richard-barker/blob/main/cose_academy_portal.html)** — original lunar & Martian browser games in the spirit of the classic Maxis sims (Lunar Habitat, lunar farming, Settlers of the Moon or Mars, Brute Bowl).
+- **[CoSE_academy_portal](https://dr-richard-barker.github.io/dr-richard-barker/cose_academy_portal.html)** — original lunar & Martian browser games in the spirit of the classic Maxis sims (Lunar Habitat, lunar farming, Settlers of the Moon or Mars, Brute Bowl).
 
 ### 🔬 Open research & tools
 FAIR, open-source science across **[my repositories](https://github.com/dr-richard-barker?tab=repositories)** — many with live sites, e.g.:
