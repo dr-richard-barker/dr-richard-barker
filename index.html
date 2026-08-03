@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CoSE Academy: Space Exploration Modeling</title>
+    <script>
+        // Inline script to prevent theme flash
+        (function() {
+            let theme = localStorage.getItem('cose_theme');
+            if (!theme) {
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
@@ -13,12 +23,15 @@
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
                         space: {
-                            900: '#07080A', // Ultra deep space
-                            800: '#151922', // Card background
-                            700: '#232936', // Lighter borders
-                            accent: '#4FD1C5', // Teal/Cyan accent
-                            text: '#9CA3AF',   // Muted gray text
-                            highlight: '#E5E7EB'// Bright text
+                            900: 'var(--bg)',
+                            800: 'var(--card)',
+                            700: 'var(--line)',
+                            accent: 'var(--accent)',
+                            text: 'var(--muted)',
+                            highlight: 'var(--fg)',
+                            accentBg: 'var(--accent-bg)',
+                            headerBg: 'var(--header-bg)',
+                            sidebarBg: 'var(--sidebar-bg)'
                         }
                     }
                 }
@@ -26,11 +39,42 @@
         }
     </script>
     <style>
-        body { background-color: #07080A; color: #E5E7EB; }
+        :root {
+            --bg: #ffffff;
+            --fg: #1a2230;
+            --muted: #5a6473;
+            --line: #e5e9f0;
+            --card: #f7f9fc;
+            --accent: #5b56d6;      /* CoSE Deep Space Indigo */
+            --accent-bg: rgba(91, 86, 214, 0.08);
+            --header-bg: #f7f9fc;
+            --sidebar-bg: #ffffff;
+        }
+        
+        html[data-theme="dark"] {
+            --bg: #0f141b;
+            --fg: #e6ebf2;
+            --muted: #9aa6b6;
+            --line: #232c39;
+            --card: #161d27;
+            --accent: #8f8bf0;      /* CoSE Deep Space Indigo Dark */
+            --accent-bg: rgba(143, 139, 240, 0.12);
+            --header-bg: #161d27;
+            --sidebar-bg: #161d27;
+        }
+
+        body { 
+            background-color: var(--bg); 
+            color: var(--fg);
+            background-image: radial-gradient(circle at 80% 20%, var(--accent-bg) 0%, transparent 40%);
+            background-attachment: fixed;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #07080A; }
-        ::-webkit-scrollbar-thumb { background: #232936; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #4FD1C5; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
         
         /* Custom Range Slider */
         input[type=range] {
@@ -43,17 +87,26 @@
             height: 20px;
             width: 20px;
             border-radius: 50%;
-            background: #4FD1C5;
+            background: var(--accent);
             cursor: pointer;
             margin-top: -8px;
-            box-shadow: 0 0 10px rgba(79, 209, 197, 0.5);
+            box-shadow: 0 0 10px var(--accent-bg);
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:active {
+            transform: scale(1.2);
         }
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
             height: 4px;
             cursor: pointer;
-            background: #232936;
+            background: var(--line);
             border-radius: 2px;
+        }
+        
+        /* Glowing text indicator */
+        .glow-text {
+            text-shadow: 0 0 8px var(--accent-bg);
         }
     </style>
 </head>
@@ -61,7 +114,7 @@
 
     <header class="bg-space-800 border-b border-space-700 p-4 flex justify-between items-center z-20 shrink-0 shadow-md">
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded bg-space-accent/10 border border-space-accent flex items-center justify-center text-xl">
+            <div class="w-10 h-10 rounded bg-space-accent/10 border border-space-accent flex items-center justify-center text-xl glow-text">
                 🌌
             </div>
             <div>
@@ -69,12 +122,16 @@
                 <p class="text-xs text-space-accent uppercase tracking-wider font-semibold">Educational Impact Assessment Portal</p>
             </div>
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
             <span id="saveIndicator" class="text-xs text-green-400 opacity-0 transition-opacity duration-300 flex items-center gap-1">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 Data Saved
             </span>
-            <button onclick="exportData()" class="text-sm bg-space-700 hover:bg-space-accent hover:text-space-900 px-4 py-2 rounded transition-colors">
+            <!-- Theme Toggle Button -->
+            <button onclick="toggleTheme()" id="themeToggleBtn" class="p-2 rounded bg-space-700 hover:bg-space-accent hover:text-space-900 text-sm transition-all font-medium flex items-center justify-center w-9 h-9" title="Toggle Light/Dark Mode">
+                🌓
+            </button>
+            <button onclick="exportData()" class="text-sm bg-space-700 hover:bg-space-accent hover:text-space-900 px-4 py-2 rounded transition-all font-medium duration-200 text-space-highlight">
                 Export Research Data (JSON)
             </button>
         </div>
@@ -82,7 +139,8 @@
 
     <main class="flex-1 flex overflow-hidden">
         
-        <aside class="w-72 bg-space-800 border-r border-space-700 flex flex-col shrink-0 z-10">
+        <!-- Sidebar Navigation -->
+        <aside class="w-72 bg-space-800 border-r border-space-700 flex flex-col shrink-0 z-10 shadow-lg">
             <div class="p-4 border-b border-space-700">
                 <h2 class="text-sm font-semibold text-space-text uppercase tracking-wider">Course Modules</h2>
             </div>
@@ -91,31 +149,64 @@
             </nav>
         </aside>
 
-        <section class="flex-1 overflow-y-auto p-8 relative scroll-smooth">
-            <div class="max-w-4xl mx-auto space-y-8 pb-20" id="mainContent">
-                <!-- Content injected via JS -->
-            </div>
-        </section>
+        <!-- Main Workspace: Split layout container -->
+        <div class="flex-1 flex overflow-hidden">
+            <!-- Left Pane: Assessment Briefing and Forms -->
+            <section id="assessmentPane" class="flex-1 overflow-y-auto p-8 relative scroll-smooth transition-all duration-300">
+                <div class="max-w-4xl mx-auto space-y-8 pb-20" id="mainContent">
+                    <!-- Content injected via JS -->
+                </div>
+            </section>
+
+            <!-- Right Pane: Live Simulator Viewport -->
+            <section id="simulatorPane" class="w-0 overflow-hidden bg-space-900 transition-all duration-500 ease-in-out flex flex-col relative">
+                <!-- Control Bar -->
+                <div class="bg-space-800 border-b border-space-700 p-3 flex justify-between items-center shrink-0 shadow-sm z-10">
+                    <div class="flex items-center gap-2">
+                        <span id="simIcon" class="text-xl">🌌</span>
+                        <div>
+                            <h3 id="simTitle" class="font-bold text-sm text-space-highlight leading-none">Simulator</h3>
+                            <span class="text-[9px] text-space-accent uppercase tracking-wider font-semibold">Active Telemetry Connection</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="reloadSimulator()" class="p-2 rounded bg-space-700 hover:bg-space-accent hover:text-space-900 transition-all text-xs flex items-center gap-1 font-medium text-space-highlight" title="Reload Simulator">
+                            <span>🔄</span> <span class="hidden md:inline">Reload</span>
+                        </button>
+                        <a id="simNewTabLink" href="#" target="_blank" rel="noopener noreferrer" class="p-2 rounded bg-space-700 hover:bg-space-accent hover:text-space-900 transition-all text-xs flex items-center gap-1 font-medium text-space-highlight" title="Open in New Tab">
+                            <span>↗️</span> <span class="hidden md:inline">New Tab</span>
+                        </a>
+                        <button onclick="closeSimulator()" class="p-2 rounded bg-red-950/40 border border-red-900/60 hover:bg-red-600 hover:text-white transition-all text-xs font-semibold flex items-center justify-center w-8 h-8" title="Close Panel">
+                            ✕
+                        </button>
+                    </div>
+                </div>
+                <!-- Iframe Viewport -->
+                <div class="flex-1 relative bg-black">
+                    <iframe id="simulatorIframe" src="" class="w-full h-full border-none" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"></iframe>
+                </div>
+            </section>
+        </div>
     </main>
 
     <script>
-        // Restructured data to support quantitative (range) and qualitative (text) questions
+        // Restructured data with direct URLs to avoid intermediate hub
         const courseData = [
             {
                 id: "mod_01",
                 icon: "🏗️",
                 title: "Lunar Habitat",
                 subtitle: "Regolith Shielding & Vertical Architecture",
-                scenario: "The lunar surface is subjected to extreme cosmic radiation and micro-meteoroid impacts. In this structural engineering simulator, you must design a sustainable colony that s[...]
-                url: "https://dr-richard-barker.github.io/cose-arcade/",
+                scenario: "The lunar surface is subjected to extreme cosmic radiation and micro-meteoroid impacts. In this structural engineering simulator, you must design a sustainable colony that survives these hazards. You are tasked with balancing a 26-level superstructure against a 24-level sub-surface excavation into the regolith.",
+                url: "https://dr-richard-barker.github.io/lunar-arcade/games/lunar-habitat/",
                 questions: {
                     pre: [
-                        { id: "q1", type: "range", min: 1, max: 5, label: "Self-Efficacy Assessment", text: "On a scale of 1-5, how confident are you in your ability to calculate the regolith depth re[...]
-                        { id: "q2", type: "text", label: "Structural Trade-offs", text: "What do you perceive as the primary engineering trade-offs between building above ground versus excavating into[...]
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Self-Efficacy Assessment", text: "On a scale of 1-5, how confident are you in your ability to calculate the regolith depth required to block galactic cosmic rays (GCRs)?" },
+                        { id: "q2", type: "text", label: "Structural Trade-offs", text: "What do you perceive as the primary engineering trade-offs between building above ground versus excavating into the lunar surface?" }
                     ],
                     post: [
-                        { id: "q1", type: "range", min: 1, max: 5, label: "Post-Efficacy Assessment", text: "After running the simulation, how confident are you in calculating required regolith depth [...]
-                        { id: "q2", type: "text", label: "Resource Allocation", text: "How did the transition zone between the surface and subsurface levels ultimately impact your structural resource [...]
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Post-Efficacy Assessment", text: "After running the simulation, how confident are you in calculating required regolith depth for shielding?" },
+                        { id: "q2", type: "text", label: "Resource Allocation", text: "How did the transition zone between the surface and subsurface levels ultimately impact your structural resource allocation?" }
                     ]
                 }
             },
@@ -124,15 +215,15 @@
                 icon: "🚜",
                 title: "Boring Mining",
                 subtitle: "Autonomous Extraction & Strategic Competition",
-                scenario: "Securing in-situ resources is the foundation of deep space independence. This simulator models the autonomous extraction of lunar regolith using mechanized fleets. You must [...]
+                scenario: "Securing in-situ resources is the foundation of deep space independence. This simulator models the autonomous extraction of lunar regolith using mechanized fleets. You must navigate geopolitical pressures, manage equipment degradation, and outmaneuver competitors to secure extraction zones.",
                 url: "https://dr-richard-barker.github.io/lunar-arcade/games/boring-mining/",
                 questions: {
                     pre: [
-                        { id: "q1", type: "range", min: 1, max: 5, label: "Strategic Priorities", text: "Rate the importance (1=Low, 5=High) of autonomous equipment maintenance compared to rapid resou[...]
-                        { id: "q2", type: "text", label: "Competitive Dynamics", text: "How do you anticipate rival corporate or state actors will influence your initial resource extraction strategy?"[...]
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Strategic Priorities", text: "Rate the importance (1=Low, 5=High) of autonomous equipment maintenance compared to rapid resource acquisition." },
+                        { id: "q2", type: "text", label: "Competitive Dynamics", text: "How do you anticipate rival corporate or state actors will influence your initial resource extraction strategy?" }
                     ],
                     post: [
-                        { id: "q1", type: "range", min: 1, max: 5, label: "Revised Strategic Priorities", text: "Post-simulation: Rate the importance of autonomous equipment maintenance compared to ra[...]
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Revised Strategic Priorities", text: "Post-simulation: Rate the importance of autonomous equipment maintenance compared to rapid acquisition." },
                         { id: "q2", type: "text", label: "Tactical Pivots", text: "How did real-time competition alter your initial telemetry and drilling path in the simulation?" }
                     ]
                 }
@@ -142,16 +233,16 @@
                 icon: "🌾",
                 title: "Lunar Farm",
                 subtitle: "Closed-Loop Agricultural Resource Management",
-                scenario: "Establishing food security requires precise control over biological variables. This module models a controlled environment agriculture (CEA) system. You will deploy 8x8 grow[...]
-                url: "https://dr-richard-barker.github.io/cose-arcade/",
+                scenario: "Establishing food security requires precise control over biological variables. This module models a controlled environment agriculture (CEA) system. You will deploy 8x8 grow halls to cultivate vital crops, balancing yield against the high power draw of continuous LED lighting and strict water constraints.",
+                url: "https://dr-richard-barker.github.io/LunarSims/farm/",
                 questions: {
                     pre: [
-                        { id: "q1", type: "range", min: 1, max: 5, label: "Constraint Hypothesis", text: "Rate your agreement (1=Strongly Disagree, 5=Strongly Agree): 'The power draw of artificial lig[...]
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Constraint Hypothesis", text: "Rate your agreement (1=Strongly Disagree, 5=Strongly Agree): 'The power draw of artificial lighting is a more severe constraint than water reclamation in lunar agriculture.'" },
                         { id: "q2", type: "text", label: "System Stability", text: "In a closed-loop system, which resource loop do you expect to be the most difficult to stabilize and why?" }
                     ],
                     post: [
-                        { id: "q1", type: "range", min: 1, max: 5, label: "Constraint Conclusion", text: "Rate your agreement post-simulation: 'The power draw of artificial lighting is a more severe c[...]
-                        { id: "q2", type: "text", label: "Yield Efficiency", text: "Which crop selection proved to be the most efficient for your base's survival, and how did it impact your power grid[...]
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Constraint Conclusion", text: "Rate your agreement post-simulation: 'The power draw of artificial lighting is a more severe constraint than water reclamation.'" },
+                        { id: "q2", type: "text", label: "Yield Efficiency", text: "Which crop selection proved to be the most efficient for your base's survival, and how did it impact your power grid?" }
                     ]
                 }
             },
@@ -160,16 +251,16 @@
                 icon: "🎲",
                 title: "Settlers of Moon/Mars",
                 subtitle: "Aerospace Logistics & Biotech Settlement",
-                scenario: "Early multi-planetary settlement requires balancing aerospace engineering with space biology. This simulator tests decision-making across settlement phases. Navigate the var[...]
-                url: "https://dr-richard-barker.github.io/cose-arcade/",
+                scenario: "Early multi-planetary settlement requires balancing aerospace engineering with space biology. This simulator tests decision-making across settlement phases. Navigate the variables of mycoponic deployment, supply chain logistics, and atmospheric processing to build a self-sustaining outpost.",
+                url: "https://dr-richard-barker.github.io/Settlers_of_the_Moon_or_Mars/",
                 questions: {
                     pre: [
-                        { id: "q1", type: "range", min: 1, max: 5, label: "Risk Readiness", text: "On a scale of 1-5, how prepared are you to manage stochastic (random) mechanical failures during miss[...]
-                        { id: "q2", type: "text", label: "Cascading Failures", text: "What specific cascading failures might occur if a primary biotech life support system experiences a 20% efficiency[...]
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Risk Readiness", text: "On a scale of 1-5, how prepared are you to manage stochastic (random) mechanical failures during mission planning?" },
+                        { id: "q2", type: "text", label: "Cascading Failures", text: "What specific cascading failures might occur if a primary biotech life support system experiences a 20% efficiency drop?" }
                     ],
                     post: [
                         { id: "q1", type: "range", min: 1, max: 5, label: "Post-Simulation Risk Readiness", text: "After playing, how prepared do you feel to manage stochastic mechanical failures?" },
-                        { id: "q2", type: "text", label: "Adaptive Strategy", text: "Describe a specific instance where a random event in the simulator forced you to completely pivot your settlement s[...]
+                        { id: "q2", type: "text", label: "Adaptive Strategy", text: "Describe a specific instance where a random event in the simulator forced you to completely pivot your settlement strategy." }
                     ]
                 }
             },
@@ -178,16 +269,16 @@
                 icon: "🏈",
                 title: "Brute Bowl",
                 subtitle: "Stochastic Probability & Constraint Modeling",
-                scenario: "Complex missions require rigorous stress-testing of team dynamics. Utilizing LLM-assisted reasoning, this tactical modeling tool visualizes resource allocation in a highly c[...]
-                url: "https://dr-richard-barker.github.io/cose-arcade/",
+                scenario: "Complex missions require rigorous stress-testing of team dynamics. Utilizing LLM-assisted reasoning, this tactical modeling tool visualizes resource allocation in a highly constrained environment. Map dice-probability interactions to observe how teams perform under extreme pressure.",
+                url: "https://dr-richard-barker.github.io/Training_LLM_game-theory_using_bloodbowl/game/",
                 questions: {
                     pre: [
-                        { id: "q1", type: "range", min: 1, max: 100, label: "Adaptability Index", text: "Estimate (0-100%): What percentage of mission success relies on on-the-fly adaptability versus [...]
-                        { id: "q2", type: "text", label: "Spatial Constraints", text: "How does visualizing a physically constrained environment influence your approach to tactical resource allocation[...]
+                        { id: "q1", type: "range", min: 1, max: 100, label: "Adaptability Index", text: "Estimate (0-100%): What percentage of mission success relies on on-the-fly adaptability versus rigid pre-planning?" },
+                        { id: "q2", type: "text", label: "Spatial Constraints", text: "How does visualizing a physically constrained environment influence your approach to tactical resource allocation?" }
                     ],
                     post: [
-                        { id: "q1", type: "range", min: 1, max: 100, label: "Revised Adaptability Index", text: "Post-simulation estimate (0-100%): Importance of on-the-fly adaptability vs. rigid pre-[...]
-                        { id: "q2", type: "text", label: "Probability Realities", text: "How did the simulated dice-probability interactions challenge your initial assumptions about risk mitigation?" [...]
+                        { id: "q1", type: "range", min: 1, max: 100, label: "Revised Adaptability Index", text: "Post-simulation estimate (0-100%): Importance of on-the-fly adaptability vs. rigid pre-planning." },
+                        { id: "q2", type: "text", label: "Probability Realities", text: "How did the simulated dice-probability interactions challenge your initial assumptions about risk mitigation?" }
                     ]
                 }
             },
@@ -196,15 +287,15 @@
                 icon: "⚔️",
                 title: "Lunar Red Alert",
                 subtitle: "Vacuum-Environment Resource Conflict",
-                scenario: "This advanced desktop simulator explores resource extraction and asset defense in a strict lunar vacuum setting. Built on the open-source OpenRA engine, users must account f[...]
+                scenario: "This advanced desktop simulator explores resource extraction and asset defense in a strict lunar vacuum setting. Built on the open-source OpenRA engine, users must account for the unique physics and logistical challenges of managing supply lines without an atmosphere.",
                 url: "https://dr-richard-barker.github.io/Lunar_Red_Alert/",
                 questions: {
                     pre: [
-                        { id: "q1", type: "range", min: 1, max: 5, label: "Vulnerability Assessment", text: "On a scale of 1-5, rate the anticipated vulnerability of extended supply lines in a vacuum [...]
-                        { id: "q2", type: "text", label: "Physics Constraints", text: "How do you expect the absence of atmospheric friction and pressure to alter the deployment of heavy infrastructur[...]
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Vulnerability Assessment", text: "On a scale of 1-5, rate the anticipated vulnerability of extended supply lines in a vacuum environment." },
+                        { id: "q2", type: "text", label: "Physics Constraints", text: "How do you expect the absence of atmospheric friction and pressure to alter the deployment of heavy infrastructure?" }
                     ],
                     post: [
-                        { id: "q1", type: "range", min: 1, max: 5, label: "Post-Vulnerability Assessment", text: "After the simulation, rate the actual vulnerability of extended supply lines in a vacu[...]
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Post-Vulnerability Assessment", text: "After the simulation, rate the actual vulnerability of extended supply lines in a vacuum environment (1-5)." },
                         { id: "q2", type: "text", label: "Logistical Bottlenecks", text: "What specific logistical bottlenecks emerged as your base expanded across the lunar terrain?" }
                     ]
                 }
@@ -227,6 +318,9 @@
             // Update range display if it's a range input
             const displayEl = document.getElementById(`val_${moduleId}_${phase}_${questionId}`);
             if(displayEl) displayEl.textContent = value;
+
+            // Re-render sidebar to update completion badges dynamically
+            renderSidebar();
         }
 
         function getData(moduleId, phase, questionId, type, min) {
@@ -234,6 +328,27 @@
                 return researchData[moduleId][`${phase}_${questionId}`];
             }
             return type === 'range' ? min : "";
+        }
+
+        function getModuleCompletionStatus(module) {
+            let total = 0;
+            let answered = 0;
+            
+            ['pre', 'post'].forEach(phase => {
+                if (module.questions && module.questions[phase]) {
+                    module.questions[phase].forEach(q => {
+                        total++;
+                        if (researchData[module.id] && researchData[module.id][`${phase}_${q.id}`] !== undefined) {
+                            answered++;
+                        }
+                    });
+                }
+            });
+            
+            if (total === 0) return 'completed';
+            if (answered === total) return 'completed';
+            if (answered > 0) return 'started';
+            return 'unstarted';
         }
 
         function exportData() {
@@ -252,14 +367,28 @@
             
             courseData.forEach((mod, index) => {
                 const isActive = index === currentModuleIndex;
+                const status = getModuleCompletionStatus(mod);
+                
+                let statusBadge = '';
+                if (status === 'completed') {
+                    statusBadge = '<span class="text-xs text-space-accent font-extrabold glow-text" title="Completed">✓</span>';
+                } else if (status === 'started') {
+                    statusBadge = '<span class="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#fbbf24]" title="In Progress"></span>';
+                }
+                
                 const btn = document.createElement('button');
-                btn.className = `w-full text-left p-3 rounded-lg mb-1 flex items-center gap-3 transition-all ${isActive ? 'bg-space-700 border-l-4 border-space-accent text-white' : 'text-space-text ho[...]`;
+                btn.className = `w-full text-left p-3 rounded-lg mb-1 flex items-center justify-between gap-3 transition-all duration-200 ${isActive ? 'bg-space-700 border-l-4 border-space-accent text-space-highlight font-medium shadow-md' : 'text-space-text hover:bg-space-900 hover:text-space-highlight border-l-4 border-transparent'}`;
                 btn.onclick = () => loadModule(index);
                 btn.innerHTML = `
-                    <span class="text-xl">${mod.icon}</span>
-                    <div class="truncate">
-                        <div class="font-medium text-sm truncate">${mod.title}</div>
-                        <div class="text-[10px] uppercase tracking-wider opacity-70">Module 0${index + 1}</div>
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="text-xl shrink-0">${mod.icon}</span>
+                        <div class="min-w-0">
+                            <div class="font-medium text-sm truncate">${mod.title}</div>
+                            <div class="text-[10px] uppercase tracking-wider opacity-70">Module 0${index + 1}</div>
+                        </div>
+                    </div>
+                    <div class="shrink-0 flex items-center justify-center w-4">
+                        ${statusBadge}
                     </div>
                 `;
                 nav.appendChild(btn);
@@ -301,5 +430,168 @@
                 } else if (q.type === 'text') {
                     html += `
                         <textarea 
-                            class="w-full bg-space-900 border border-space-700 rounded-lg p-3 text-space-highlight text-sm focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-ac[...]`
-;
+                            class="w-full bg-space-900 border border-space-700 rounded-lg p-3 text-space-highlight text-sm focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-all resize-y"
+                            rows="3"
+                            placeholder="Enter your detailed observations here..."
+                            onchange="saveData('${module.id}', '${phase}', '${q.id}', this.value)"
+                        >${val}</textarea>
+                    `;
+                }
+                html += `</div>`;
+            });
+
+            html += `</div></div>`;
+            return html;
+        }
+
+        function loadModule(index) {
+            currentModuleIndex = index;
+            const module = courseData[index];
+            renderSidebar(); // Update active state in sidebar
+
+            const container = document.getElementById('mainContent');
+            
+            let html = `
+                <!-- Header/Briefing -->
+                <div class="mb-10 animate-fadeIn">
+                    <div class="flex items-center gap-4 mb-4">
+                        <span class="text-5xl shrink-0">${module.icon}</span>
+                        <div>
+                            <h2 class="text-4xl font-extrabold text-space-highlight tracking-tight leading-tight">${module.title}</h2>
+                            <h3 class="text-lg text-space-accent font-medium mt-1">${module.subtitle}</h3>
+                        </div>
+                    </div>
+                    <div class="bg-space-900 border-l-4 border-space-accent p-5 rounded-r-lg text-space-highlight leading-relaxed text-lg shadow-inner">
+                        ${module.scenario}
+                    </div>
+                </div>
+            `;
+
+            // Pre-Assessment
+            html += buildAssessmentBlock(
+                module, 'pre', 
+                'Phase 1: Baseline Hypothesis', 
+                'Complete this assessment before launching the simulation to establish your baseline understanding.'
+            );
+
+            // The External Launchpad (Split Screen Interface)
+            html += `
+                <div class="relative bg-gradient-to-r from-space-800 to-space-900 border border-space-700 rounded-xl p-8 my-12 text-center overflow-hidden shadow-2xl group">
+                    <div class="absolute inset-0 bg-space-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <h3 class="text-2xl font-bold text-space-highlight mb-2 relative z-10">Ready to Test Your Hypothesis?</h3>
+                    <p class="text-space-text mb-6 max-w-xl mx-auto relative z-10">Launch the high-fidelity simulator. The environment can be played in split-screen on the right, or opened in a new tab.</p>
+                    
+                    <div class="flex flex-wrap justify-center gap-4 relative z-10">
+                        <button onclick="launchSimulator('${module.url}', '${module.title}', '${module.icon}')"
+                                class="inline-flex items-center gap-2 bg-space-accent text-white px-8 py-4 rounded-full font-bold text-lg hover:brightness-110 hover:scale-105 transition-all duration-300 shadow-lg">
+                            Launch Split-Screen
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 00-4-4H3m18 0h-2a4 4 0 00-4 4v2m0 0l-3-3m3 3l3-3M9 17l-3-3m3 3L6 14"></path></svg>
+                        </button>
+                        <a href="${module.url}" target="_blank" rel="noopener noreferrer" 
+                           class="inline-flex items-center gap-2 bg-space-700 text-space-highlight px-8 py-4 rounded-full font-bold text-lg hover:bg-space-700/80 transition-all duration-300 border border-space-700 shadow-md">
+                            Play in New Tab
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            // Post-Assessment
+            html += buildAssessmentBlock(
+                module, 'post', 
+                'Phase 2: Post-Simulation Analysis', 
+                'After completing your session, record how the modeled constraints altered your initial hypothesis.'
+            );
+
+            container.innerHTML = html;
+            
+            // If the simulator pane is already open, reload it with the new simulator url
+            const pane = document.getElementById('simulatorPane');
+            if (pane && !pane.classList.contains('w-0')) {
+                launchSimulator(module.url, module.title, module.icon);
+            }
+        }
+
+        function launchSimulator(url, title, icon) {
+            const pane = document.getElementById('simulatorPane');
+            const iframe = document.getElementById('simulatorIframe');
+            const simTitle = document.getElementById('simTitle');
+            const simIcon = document.getElementById('simIcon');
+            const simNewTab = document.getElementById('simNewTabLink');
+            
+            simTitle.textContent = title + " Simulator";
+            simIcon.textContent = icon;
+            simNewTab.href = url;
+            
+            // Set src and display the split screen
+            iframe.src = url;
+            pane.classList.remove('w-0');
+            pane.classList.add('border-l', 'border-space-700');
+            
+            // Responsive width allocation
+            if (window.innerWidth < 768) {
+                // Mobile: Full screen overlay
+                pane.classList.remove('w-[55vw]', 'w-[70vw]');
+                pane.classList.add('w-full', 'fixed', 'inset-0', 'z-50');
+            } else if (window.innerWidth < 1024) {
+                // Tablet: Larger split
+                pane.classList.remove('w-full', 'fixed', 'inset-0', 'z-50', 'w-[55vw]');
+                pane.classList.add('w-[70vw]');
+            } else {
+                // Desktop: Standard split
+                pane.classList.remove('w-full', 'fixed', 'inset-0', 'z-50', 'w-[70vw]');
+                pane.classList.add('w-[55vw]');
+            }
+            
+            // Highlight phase 2/scroll down a bit to orient the user
+            const postHeader = document.querySelector('#mainContent h3');
+            if (postHeader) {
+                postHeader.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function closeSimulator() {
+            const pane = document.getElementById('simulatorPane');
+            const iframe = document.getElementById('simulatorIframe');
+            
+            iframe.src = '';
+            // Reset styles
+            pane.className = 'w-0 overflow-hidden bg-space-900 transition-all duration-500 ease-in-out flex flex-col relative';
+        }
+
+        function reloadSimulator() {
+            const iframe = document.getElementById('simulatorIframe');
+            if (iframe.src) {
+                iframe.src = iframe.src;
+            }
+        }
+
+        // Theme control logic
+        function toggleTheme() {
+            const htmlEl = document.documentElement;
+            const currentTheme = htmlEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlEl.setAttribute('data-theme', newTheme);
+            localStorage.setItem('cose_theme', newTheme);
+            
+            // Update button icon
+            document.getElementById('themeToggleBtn').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            
+            // Re-render sidebar to apply styling
+            renderSidebar();
+        }
+
+        function initThemeIcon() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            document.getElementById('themeToggleBtn').textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Initialize App
+        window.onload = () => {
+            loadModule(0);
+            initThemeIcon();
+        };
+    </script>
+</body>
+</html>
