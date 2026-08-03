@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CoSE Academy: Space Exploration Modeling</title>
+    <script>
+        // Inline script to prevent theme flash
+        (function() {
+            let theme = localStorage.getItem('cose_theme');
+            if (!theme) {
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
@@ -13,12 +23,15 @@
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
                         space: {
-                            900: '#07080A', // Ultra deep space
-                            800: '#151922', // Card background
-                            700: '#232936', // Lighter borders
-                            accent: '#4FD1C5', // Teal/Cyan accent
-                            text: '#9CA3AF',   // Muted gray text
-                            highlight: '#E5E7EB'// Bright text
+                            900: 'var(--bg)',
+                            800: 'var(--card)',
+                            700: 'var(--line)',
+                            accent: 'var(--accent)',
+                            text: 'var(--muted)',
+                            highlight: 'var(--fg)',
+                            accentBg: 'var(--accent-bg)',
+                            headerBg: 'var(--header-bg)',
+                            sidebarBg: 'var(--sidebar-bg)'
                         }
                     }
                 }
@@ -26,11 +39,42 @@
         }
     </script>
     <style>
-        body { background-color: #07080A; color: #E5E7EB; }
+        :root {
+            --bg: #ffffff;
+            --fg: #1a2230;
+            --muted: #5a6473;
+            --line: #e5e9f0;
+            --card: #f7f9fc;
+            --accent: #5b56d6;      /* CoSE Deep Space Indigo */
+            --accent-bg: rgba(91, 86, 214, 0.08);
+            --header-bg: #f7f9fc;
+            --sidebar-bg: #ffffff;
+        }
+        
+        html[data-theme="dark"] {
+            --bg: #0f141b;
+            --fg: #e6ebf2;
+            --muted: #9aa6b6;
+            --line: #232c39;
+            --card: #161d27;
+            --accent: #8f8bf0;      /* CoSE Deep Space Indigo Dark */
+            --accent-bg: rgba(143, 139, 240, 0.12);
+            --header-bg: #161d27;
+            --sidebar-bg: #161d27;
+        }
+
+        body { 
+            background-color: var(--bg); 
+            color: var(--fg);
+            background-image: radial-gradient(circle at 80% 20%, var(--accent-bg) 0%, transparent 40%);
+            background-attachment: fixed;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #07080A; }
-        ::-webkit-scrollbar-thumb { background: #232936; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #4FD1C5; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
         
         /* Custom Range Slider */
         input[type=range] {
@@ -43,10 +87,10 @@
             height: 20px;
             width: 20px;
             border-radius: 50%;
-            background: #4FD1C5;
+            background: var(--accent);
             cursor: pointer;
             margin-top: -8px;
-            box-shadow: 0 0 10px rgba(79, 209, 197, 0.5);
+            box-shadow: 0 0 10px var(--accent-bg);
             transition: transform 0.1s;
         }
         input[type=range]::-webkit-slider-thumb:active {
@@ -56,13 +100,13 @@
             width: 100%;
             height: 4px;
             cursor: pointer;
-            background: #232936;
+            background: var(--line);
             border-radius: 2px;
         }
         
         /* Glowing text indicator */
         .glow-text {
-            text-shadow: 0 0 8px rgba(79, 209, 197, 0.4);
+            text-shadow: 0 0 8px var(--accent-bg);
         }
     </style>
 </head>
@@ -78,12 +122,16 @@
                 <p class="text-xs text-space-accent uppercase tracking-wider font-semibold">Educational Impact Assessment Portal</p>
             </div>
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
             <span id="saveIndicator" class="text-xs text-green-400 opacity-0 transition-opacity duration-300 flex items-center gap-1">
                 <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 Data Saved
             </span>
-            <button onclick="exportData()" class="text-sm bg-space-700 hover:bg-space-accent hover:text-space-900 px-4 py-2 rounded transition-all font-medium duration-200">
+            <!-- Theme Toggle Button -->
+            <button onclick="toggleTheme()" id="themeToggleBtn" class="p-2 rounded bg-space-700 hover:bg-space-accent hover:text-space-900 text-sm transition-all font-medium flex items-center justify-center w-9 h-9" title="Toggle Light/Dark Mode">
+                🌓
+            </button>
+            <button onclick="exportData()" class="text-sm bg-space-700 hover:bg-space-accent hover:text-space-900 px-4 py-2 rounded transition-all font-medium duration-200 text-space-highlight">
                 Export Research Data (JSON)
             </button>
         </div>
@@ -122,10 +170,10 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button onclick="reloadSimulator()" class="p-2 rounded bg-space-700 hover:bg-space-accent hover:text-space-900 transition-all text-xs flex items-center gap-1 font-medium" title="Reload Simulator">
+                        <button onclick="reloadSimulator()" class="p-2 rounded bg-space-700 hover:bg-space-accent hover:text-space-900 transition-all text-xs flex items-center gap-1 font-medium text-space-highlight" title="Reload Simulator">
                             <span>🔄</span> <span class="hidden md:inline">Reload</span>
                         </button>
-                        <a id="simNewTabLink" href="#" target="_blank" rel="noopener noreferrer" class="p-2 rounded bg-space-700 hover:bg-space-accent hover:text-space-900 transition-all text-xs flex items-center gap-1 font-medium" title="Open in New Tab">
+                        <a id="simNewTabLink" href="#" target="_blank" rel="noopener noreferrer" class="p-2 rounded bg-space-700 hover:bg-space-accent hover:text-space-900 transition-all text-xs flex items-center gap-1 font-medium text-space-highlight" title="Open in New Tab">
                             <span>↗️</span> <span class="hidden md:inline">New Tab</span>
                         </a>
                         <button onclick="closeSimulator()" class="p-2 rounded bg-red-950/40 border border-red-900/60 hover:bg-red-600 hover:text-white transition-all text-xs font-semibold flex items-center justify-center w-8 h-8" title="Close Panel">
@@ -329,7 +377,7 @@
                 }
                 
                 const btn = document.createElement('button');
-                btn.className = `w-full text-left p-3 rounded-lg mb-1 flex items-center justify-between gap-3 transition-all duration-200 ${isActive ? 'bg-space-700 border-l-4 border-space-accent text-white font-medium shadow-md' : 'text-space-text hover:bg-space-900 hover:text-space-highlight border-l-4 border-transparent'}`;
+                btn.className = `w-full text-left p-3 rounded-lg mb-1 flex items-center justify-between gap-3 transition-all duration-200 ${isActive ? 'bg-space-700 border-l-4 border-space-accent text-space-highlight font-medium shadow-md' : 'text-space-text hover:bg-space-900 hover:text-space-highlight border-l-4 border-transparent'}`;
                 btn.onclick = () => loadModule(index);
                 btn.innerHTML = `
                     <div class="flex items-center gap-3 min-w-0">
@@ -409,7 +457,7 @@
                     <div class="flex items-center gap-4 mb-4">
                         <span class="text-5xl shrink-0">${module.icon}</span>
                         <div>
-                            <h2 class="text-4xl font-extrabold text-white tracking-tight leading-tight">${module.title}</h2>
+                            <h2 class="text-4xl font-extrabold text-space-highlight tracking-tight leading-tight">${module.title}</h2>
                             <h3 class="text-lg text-space-accent font-medium mt-1">${module.subtitle}</h3>
                         </div>
                     </div>
@@ -430,17 +478,17 @@
             html += `
                 <div class="relative bg-gradient-to-r from-space-800 to-space-900 border border-space-700 rounded-xl p-8 my-12 text-center overflow-hidden shadow-2xl group">
                     <div class="absolute inset-0 bg-space-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <h3 class="text-2xl font-bold text-white mb-2 relative z-10">Ready to Test Your Hypothesis?</h3>
+                    <h3 class="text-2xl font-bold text-space-highlight mb-2 relative z-10">Ready to Test Your Hypothesis?</h3>
                     <p class="text-space-text mb-6 max-w-xl mx-auto relative z-10">Launch the high-fidelity simulator. The environment can be played in split-screen on the right, or opened in a new tab.</p>
                     
                     <div class="flex flex-wrap justify-center gap-4 relative z-10">
                         <button onclick="launchSimulator('${module.url}', '${module.title}', '${module.icon}')"
-                                class="inline-flex items-center gap-2 bg-space-accent text-space-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(79,209,197,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]">
+                                class="inline-flex items-center gap-2 bg-space-accent text-white px-8 py-4 rounded-full font-bold text-lg hover:brightness-110 hover:scale-105 transition-all duration-300 shadow-lg">
                             Launch Split-Screen
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 00-4-4H3m18 0h-2a4 4 0 00-4 4v2m0 0l-3-3m3 3l3-3M9 17l-3-3m3 3L6 14"></path></svg>
                         </button>
                         <a href="${module.url}" target="_blank" rel="noopener noreferrer" 
-                           class="inline-flex items-center gap-2 bg-space-700 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-space-600 hover:text-white transition-all duration-300 border border-space-600">
+                           class="inline-flex items-center gap-2 bg-space-700 text-space-highlight px-8 py-4 rounded-full font-bold text-lg hover:bg-space-700/80 transition-all duration-300 border border-space-700 shadow-md">
                             Play in New Tab
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                         </a>
@@ -518,9 +566,31 @@
             }
         }
 
+        // Theme control logic
+        function toggleTheme() {
+            const htmlEl = document.documentElement;
+            const currentTheme = htmlEl.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlEl.setAttribute('data-theme', newTheme);
+            localStorage.setItem('cose_theme', newTheme);
+            
+            // Update button icon
+            document.getElementById('themeToggleBtn').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            
+            // Re-render sidebar to apply styling
+            renderSidebar();
+        }
+
+        function initThemeIcon() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            document.getElementById('themeToggleBtn').textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+        }
+
         // Initialize App
         window.onload = () => {
             loadModule(0);
+            initThemeIcon();
         };
     </script>
 </body>
