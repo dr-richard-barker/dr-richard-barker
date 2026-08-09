@@ -299,6 +299,24 @@
                         { id: "q2", type: "text", label: "Logistical Bottlenecks", text: "What specific logistical bottlenecks emerged as your base expanded across the lunar terrain?" }
                     ]
                 }
+            },
+            {
+                id: "mod_07",
+                icon: "🏙️",
+                title: "Artemis City",
+                subtitle: "Zoning Interdependency & Infrastructure Network Growth",
+                scenario: "Founding a lunar colony means committing capital before you understand demand. This simulator models an in-situ resource utilization (ISRU) settlement in the shape of a classic zoning city-builder: you designate Habitation, Trade and Industrial ground and the colony develops it on its own, but only where a road, power or water network genuinely reaches it. As the settlement fills its surveyed charter, you must decide when to fund an expensive survey expansion versus mining and launching resources home for revenue.",
+                url: "https://dr-richard-barker.github.io/LunarSims/city/",
+                questions: {
+                    pre: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Zoning Hypothesis", text: "Rate your agreement (1=Strongly Disagree, 5=Strongly Agree): 'A colony can zone Habitation ground first and add Trade/Industrial capacity later without slowing its growth.'" },
+                        { id: "q2", type: "text", label: "Network Bottleneck", text: "Which infrastructure network — road, power or water — do you expect will be hardest to keep fully connected as the colony's footprint grows?" }
+                    ],
+                    post: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Revised Zoning Hypothesis", text: "After running the simulation, rate your agreement: 'A colony can zone Habitation ground first and add Trade/Industrial capacity later without slowing its growth.'" },
+                        { id: "q2", type: "text", label: "Diagnosed Bottleneck", text: "Which infrastructure network actually proved hardest to keep connected as your survey charter expanded, and which map view helped you diagnose it?" }
+                    ]
+                }
             }
         ];
 
