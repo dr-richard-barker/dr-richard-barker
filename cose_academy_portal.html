@@ -317,6 +317,24 @@
                         { id: "q2", type: "text", label: "Diagnosed Bottleneck", text: "Which infrastructure network actually proved hardest to keep connected as your survey charter expanded, and which map view helped you diagnose it?" }
                     ]
                 }
+            },
+            {
+                id: "mod_08",
+                icon: "🌗",
+                title: "Lunar Metropolis",
+                subtitle: "Terrain-Driven Siting & Departmental Budget Trade-offs",
+                scenario: "Polar site selection is a genuine trade, and this simulator makes you make it. Every tile carries an elevation, and solar exposure is derived from that elevation by raycasting against the surrounding terrain at the low sun angle characteristic of the lunar poles. The result is the real polar geography: crater rims that approach permanent illumination and are where generation belongs, and permanently shadowed floors that never see the sun and are where the volatiles are. You cannot have both on the same ground. On top of that siting decision sits a management loop — a tax rate that funds the settlement but suppresses its growth, and five departmental budgets (power, atmosphere, transit, safety, science) whose underfunding degrades the specific system each one maintains. An AI director mode is provided so the settlement can be observed running unattended.",
+                url: "https://dr-richard-barker.github.io/LunarSims/metro/",
+                questions: {
+                    pre: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Siting Hypothesis", text: "Rate your agreement (1=Strongly Disagree, 5=Strongly Agree): 'A polar settlement should be sited for access to shadowed-region volatiles first, and solve its power generation afterwards.'" },
+                        { id: "q2", type: "text", label: "Budget Prediction", text: "Of power, atmosphere, transit, safety and science, which department do you expect to be the most damaging to underfund, and what failure would you expect to see first?" }
+                    ],
+                    post: [
+                        { id: "q1", type: "range", min: 1, max: 5, label: "Revised Siting Hypothesis", text: "After building a settlement, rate your agreement: 'A polar settlement should be sited for access to shadowed-region volatiles first, and solve its power generation afterwards.'" },
+                        { id: "q2", type: "text", label: "Observed Budget Failure", text: "Which department did you actually underfund, what failed as a result, and how long did it take you to trace the symptom back to the budget?" }
+                    ]
+                }
             }
         ];
 
