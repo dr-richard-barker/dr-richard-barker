@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoSE Academy: Space Exploration Modeling</title>
+    <title>CoSE Academy: Space Exploration Modeling &amp; Research Portal</title>
     <script>
         // Inline script to prevent theme flash
         (function() {
@@ -14,6 +14,7 @@
             document.documentElement.setAttribute('data-theme', theme);
         })();
     </script>
+    <script src="cose/sites.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
@@ -108,51 +109,110 @@
         .glow-text {
             text-shadow: 0 0 8px var(--accent-bg);
         }
+
+        /* Slide-over Drawer Styles */
+        #coseDrawer {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        }
+        #coseDrawer.drawer-closed {
+            transform: translateX(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        #coseDrawer.drawer-open {
+            transform: translateX(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #drawerBackdrop {
+            transition: opacity 0.3s ease;
+        }
     </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden font-sans">
+<body class="h-screen flex flex-col overflow-hidden font-sans" data-site-id="dr-richard-barker">
 
-    <header class="bg-space-800 border-b border-space-700 p-4 flex justify-between items-center z-20 shrink-0 shadow-md">
-        <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded bg-space-accent/10 border border-space-accent flex items-center justify-center text-xl glow-text">
-                🌌
-            </div>
-            <div>
-                <h1 class="text-xl font-bold text-space-highlight tracking-tight">CoSE Academy</h1>
-                <p class="text-xs text-space-accent uppercase tracking-wider font-semibold">Educational Impact Assessment Portal</p>
+    <!-- Top CoSE Ecosystem Navigation Bar -->
+    <header class="bg-space-800 border-b border-space-700 px-4 py-3 flex justify-between items-center z-30 shrink-0 shadow-md">
+        <div class="flex items-center gap-3">
+            <!-- CoSE Global Map / Directory Drawer Toggle -->
+            <button onclick="toggleCoseDrawer()" class="px-3 py-1.5 rounded-lg bg-space-accent text-white hover:brightness-110 text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all" title="Browse all 60+ CoSE Research Projects, 3D Atlases & Tools">
+                <span>🧭</span>
+                <span class="hidden sm:inline">CoSE Map</span>
+            </button>
+
+            <!-- Brand Icon and Title -->
+            <div class="flex items-center gap-3">
+                <a href="https://dr-richard-barker.github.io/CoSE_Cloud/Hub/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded bg-space-accent/10 border border-space-accent flex items-center justify-center text-lg glow-text hover:scale-105 transition-transform" title="Visit CoSE Cloud Hub">
+                    🌌
+                </a>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-base sm:text-lg font-bold text-space-highlight tracking-tight leading-none">CoSE Academy</h1>
+                        <span class="text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-space-accent/15 text-space-accent font-bold border border-space-accent/30 hidden md:inline">Space Modeling</span>
+                    </div>
+                    <p class="text-[11px] text-space-text tracking-wide mt-0.5 hidden sm:block">Educational Impact Assessment Portal · Dr. Richard Barker</p>
+                </div>
             </div>
         </div>
-        <div class="flex items-center gap-3">
+
+        <!-- Center Hubs Navigation Bar -->
+        <nav class="hidden lg:flex items-center gap-1.5 bg-space-900/60 p-1 rounded-lg border border-space-700/60 text-xs">
+            <a href="https://dr-richard-barker.github.io/CoSE_Cloud/Hub/" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded text-space-text hover:text-space-highlight hover:bg-space-800 transition-colors font-medium flex items-center gap-1" title="CoSE Cloud Umbrella Directory">
+                <span>☁️</span> CoSE Cloud
+            </a>
+            <a href="https://dr-richard-barker.github.io/AstroBotany/" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded text-space-text hover:text-space-highlight hover:bg-space-800 transition-colors font-medium flex items-center gap-1" title="AstroBotany Hub">
+                <span>🌱</span> AstroBotany
+            </a>
+            <a href="https://dr-richard-barker.github.io/DeepSpaceAg/" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded text-space-text hover:text-space-highlight hover:bg-space-800 transition-colors font-medium flex items-center gap-1" title="Deep Space Agriculture & BLSS">
+                <span>🌾</span> Deep Space Ag
+            </a>
+            <a href="https://dr-richard-barker.github.io/AstronautHealth/" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded text-space-text hover:text-space-highlight hover:bg-space-800 transition-colors font-medium flex items-center gap-1" title="Astronaut Health & Countermeasures">
+                <span>🩺</span> Astronaut Health
+            </a>
+            <a href="https://dr-richard-barker.github.io/LunarSims/" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded text-space-text hover:text-space-highlight hover:bg-space-800 transition-colors font-medium flex items-center gap-1" title="Lunar Sims Suite">
+                <span>🕹️</span> Lunar Sims
+            </a>
+        </nav>
+
+        <!-- Right Action Controls -->
+        <div class="flex items-center gap-2 sm:gap-3">
             <span id="saveIndicator" class="text-xs text-green-400 opacity-0 transition-opacity duration-300 flex items-center gap-1">
                 <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Data Saved
+                <span class="hidden sm:inline">Data Saved</span>
             </span>
             <!-- Theme Toggle Button -->
-            <button onclick="toggleTheme()" id="themeToggleBtn" class="p-2 rounded bg-space-700 hover:bg-space-accent hover:text-space-900 text-sm transition-all font-medium flex items-center justify-center w-9 h-9" title="Toggle Light/Dark Mode">
+            <button onclick="toggleTheme()" id="themeToggleBtn" class="p-2 rounded bg-space-700 hover:bg-space-accent hover:text-space-900 text-sm transition-all font-medium flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9" title="Toggle Light/Dark Mode">
                 🌓
             </button>
-            <button onclick="exportData()" class="text-sm bg-space-700 hover:bg-space-accent hover:text-space-900 px-4 py-2 rounded transition-all font-medium duration-200 text-space-highlight">
-                Export Research Data (JSON)
+            <button onclick="exportData()" class="text-xs sm:text-sm bg-space-700 hover:bg-space-accent hover:text-space-900 px-3 py-1.5 sm:px-4 sm:py-2 rounded transition-all font-medium duration-200 text-space-highlight flex items-center gap-1" title="Export Likert & telemetry research data">
+                <span>📥</span> <span class="hidden sm:inline">Export Research Data</span>
             </button>
         </div>
     </header>
 
-    <main class="flex-1 flex overflow-hidden">
+    <!-- Main Workspace: Split layout container -->
+    <main class="flex-1 flex overflow-hidden relative">
         
-        <!-- Sidebar Navigation -->
-        <aside class="w-72 bg-space-800 border-r border-space-700 flex flex-col shrink-0 z-10 shadow-lg">
-            <div class="p-4 border-b border-space-700">
-                <h2 class="text-sm font-semibold text-space-text uppercase tracking-wider">Course Modules</h2>
+        <!-- Sidebar Navigation (Course Modules) -->
+        <aside class="w-64 sm:w-72 bg-space-800 border-r border-space-700 flex flex-col shrink-0 z-10 shadow-lg">
+            <div class="p-3 sm:p-4 border-b border-space-700 flex justify-between items-center">
+                <h2 class="text-xs sm:text-sm font-semibold text-space-text uppercase tracking-wider">Course Modules</h2>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-space-900 text-space-accent font-semibold">7 Missions</span>
             </div>
             <nav id="moduleNav" class="flex-1 overflow-y-auto p-2 space-y-1">
                 <!-- Navigation items injected via JS -->
             </nav>
+            <div class="p-3 border-t border-space-700 text-center">
+                <a href="https://github.com/dr-richard-barker" target="_blank" rel="noopener noreferrer" class="text-[11px] text-space-text hover:text-space-accent transition-colors flex items-center justify-center gap-1">
+                    <span>🐙</span> dr-richard-barker Portfolio
+                </a>
+            </div>
         </aside>
 
         <!-- Main Workspace: Split layout container -->
         <div class="flex-1 flex overflow-hidden">
             <!-- Left Pane: Assessment Briefing and Forms -->
-            <section id="assessmentPane" class="flex-1 overflow-y-auto p-8 relative scroll-smooth transition-all duration-300">
+            <section id="assessmentPane" class="flex-1 overflow-y-auto p-4 sm:p-8 relative scroll-smooth transition-all duration-300">
                 <div class="max-w-4xl mx-auto space-y-8 pb-20" id="mainContent">
                     <!-- Content injected via JS -->
                 </div>
@@ -189,8 +249,55 @@
         </div>
     </main>
 
+    <!-- CoSE Global Map & Project Directory Drawer Modal -->
+    <div id="drawerBackdrop" onclick="toggleCoseDrawer(false)" class="fixed inset-0 bg-black/60 z-40 hidden opacity-0 transition-opacity"></div>
+    <div id="coseDrawer" class="fixed inset-y-0 left-0 w-full max-w-xl bg-space-800 border-r border-space-700 z-50 shadow-2xl flex flex-col drawer-closed overflow-hidden">
+        <!-- Drawer Header -->
+        <div class="p-4 border-b border-space-700 flex justify-between items-center bg-space-900/80">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">🧭</span>
+                <div>
+                    <h2 class="text-base font-bold text-space-highlight">CoSE Global Project Map</h2>
+                    <p class="text-xs text-space-accent">60+ Research Hubs, 3D Atlases, Simulators &amp; Tools</p>
+                </div>
+            </div>
+            <button onclick="toggleCoseDrawer(false)" class="p-1.5 rounded-lg bg-space-700 hover:bg-red-600 hover:text-white transition-colors text-sm font-bold w-8 h-8 flex items-center justify-center">
+                ✕
+            </button>
+        </div>
+
+        <!-- Search & Filter Controls -->
+        <div class="p-4 border-b border-space-700 bg-space-800 space-y-3 shrink-0">
+            <div class="relative">
+                <input type="text" id="projectSearchInput" oninput="filterProjects()" placeholder="Search tools, omics atlases, CFD, games..." class="w-full bg-space-900 border border-space-700 rounded-lg px-4 py-2 text-xs sm:text-sm text-space-highlight placeholder-space-text focus:outline-none focus:border-space-accent">
+                <span class="absolute right-3 top-2.5 text-xs text-space-text">🔍</span>
+            </div>
+            <!-- Scope Filter Badges -->
+            <div class="flex items-center gap-1.5 flex-wrap text-[11px]" id="scopeFilterContainer">
+                <button onclick="setScopeFilter('all')" class="scope-btn px-2.5 py-1 rounded bg-space-accent text-white font-medium shadow-sm transition-all" data-scope="all">All Projects</button>
+                <button onclick="setScopeFilter('astrobotany')" class="scope-btn px-2.5 py-1 rounded bg-space-700 text-space-text hover:text-space-highlight font-medium transition-all" data-scope="astrobotany">🌱 AstroBotany</button>
+                <button onclick="setScopeFilter('deepspaceag')" class="scope-btn px-2.5 py-1 rounded bg-space-700 text-space-text hover:text-space-highlight font-medium transition-all" data-scope="deepspaceag">🌾 DeepSpaceAg</button>
+                <button onclick="setScopeFilter('astronauthealth')" class="scope-btn px-2.5 py-1 rounded bg-space-700 text-space-text hover:text-space-highlight font-medium transition-all" data-scope="astronauthealth">🩺 Astronaut Health</button>
+                <button onclick="setScopeFilter('simulations')" class="scope-btn px-2.5 py-1 rounded bg-space-700 text-space-text hover:text-space-highlight font-medium transition-all" data-scope="simulations">🎮 Serious Games</button>
+            </div>
+        </div>
+
+        <!-- Scrollable Project List -->
+        <div id="drawerProjectList" class="flex-1 overflow-y-auto p-4 space-y-6">
+            <!-- Injected dynamically from window.BARKER_SITES -->
+        </div>
+
+        <!-- Drawer Footer -->
+        <div class="p-3 border-t border-space-700 bg-space-900 flex justify-between items-center text-xs shrink-0">
+            <a href="https://dr-richard-barker.github.io/CoSE_Cloud/Hub/" target="_blank" rel="noopener noreferrer" class="text-space-accent hover:underline font-semibold flex items-center gap-1">
+                <span>☁️</span> Visit Full CoSE Cloud Hub
+            </a>
+            <span class="text-space-text text-[10px]">The Collaborative Science Environment</span>
+        </div>
+    </div>
+
     <script>
-        // Restructured data with direct URLs to avoid intermediate hub
+        // Restructured data with direct URLs, scenario briefings, and companion research
         const courseData = [
             {
                 id: "mod_01",
@@ -199,6 +306,12 @@
                 subtitle: "Regolith Shielding & Vertical Architecture",
                 scenario: "The lunar surface is subjected to extreme cosmic radiation and micro-meteoroid impacts. In this structural engineering simulator, you must design a sustainable colony that survives these hazards. You are tasked with balancing a 26-level superstructure against a 24-level sub-surface excavation into the regolith.",
                 url: "https://dr-richard-barker.github.io/lunar-arcade/games/lunar-habitat/",
+                companion: {
+                    icon: "🧱",
+                    title: "From Dust to Bio-Infrastructure: Sintered Regolith Ceramics for Lunar BLSS",
+                    journal: "npj Microgravity Review",
+                    url: "https://dr-richard-barker.github.io/lunar-regolith-blss-review/"
+                },
                 questions: {
                     pre: [
                         { id: "q1", type: "range", min: 1, max: 5, label: "Self-Efficacy Assessment", text: "On a scale of 1-5, how confident are you in your ability to calculate the regolith depth required to block galactic cosmic rays (GCRs)?" },
@@ -217,6 +330,12 @@
                 subtitle: "Autonomous Extraction & Strategic Competition",
                 scenario: "Securing in-situ resources is the foundation of deep space independence. This simulator models the autonomous extraction of lunar regolith using mechanized fleets. You must navigate geopolitical pressures, manage equipment degradation, and outmaneuver competitors to secure extraction zones.",
                 url: "https://dr-richard-barker.github.io/lunar-arcade/games/boring-mining/",
+                companion: {
+                    icon: "🗂️",
+                    title: "NASA ARES Astromaterials Curation Client & Catalogues",
+                    journal: "ARES / JSC Apollo Samples & Simulants",
+                    url: "https://dr-richard-barker.github.io/ares-curation/"
+                },
                 questions: {
                     pre: [
                         { id: "q1", type: "range", min: 1, max: 5, label: "Strategic Priorities", text: "Rate the importance (1=Low, 5=High) of autonomous equipment maintenance compared to rapid resource acquisition." },
@@ -235,6 +354,12 @@
                 subtitle: "Closed-Loop Agricultural Resource Management",
                 scenario: "Establishing food security requires precise control over biological variables. This module models a controlled environment agriculture (CEA) system. You will deploy 8x8 grow halls to cultivate vital crops, balancing yield against the high power draw of continuous LED lighting and strict water constraints.",
                 url: "https://dr-richard-barker.github.io/LunarSims/farm/",
+                companion: {
+                    icon: "🔄",
+                    title: "What a Playable Closed Loop Teaches About Closing One: Lunar Farm BLSS",
+                    journal: "MELiSSA Bioregenerative Life Support Model",
+                    url: "https://dr-richard-barker.github.io/LunarFarm-BLSS/"
+                },
                 questions: {
                     pre: [
                         { id: "q1", type: "range", min: 1, max: 5, label: "Constraint Hypothesis", text: "Rate your agreement (1=Strongly Disagree, 5=Strongly Agree): 'The power draw of artificial lighting is a more severe constraint than water reclamation in lunar agriculture.'" },
@@ -253,6 +378,12 @@
                 subtitle: "Aerospace Logistics & Biotech Settlement",
                 scenario: "Early multi-planetary settlement requires balancing aerospace engineering with space biology. This simulator tests decision-making across settlement phases. Navigate the variables of mycoponic deployment, supply chain logistics, and atmospheric processing to build a self-sustaining outpost.",
                 url: "https://dr-richard-barker.github.io/Settlers_of_the_Moon_or_Mars/",
+                companion: {
+                    icon: "🪐",
+                    title: "Settlers of Moon or Mars 3D Aerospace Logistics Codebase",
+                    journal: "GitHub Open Science Repository",
+                    url: "https://github.com/dr-richard-barker/Settlers_of_the_Moon_or_Mars"
+                },
                 questions: {
                     pre: [
                         { id: "q1", type: "range", min: 1, max: 5, label: "Risk Readiness", text: "On a scale of 1-5, how prepared are you to manage stochastic (random) mechanical failures during mission planning?" },
@@ -271,6 +402,12 @@
                 subtitle: "Stochastic Probability & Constraint Modeling",
                 scenario: "Complex missions require rigorous stress-testing of team dynamics. Utilizing LLM-assisted reasoning, this tactical modeling tool visualizes resource allocation in a highly constrained environment. Map dice-probability interactions to observe how teams perform under extreme pressure.",
                 url: "https://dr-richard-barker.github.io/Training_LLM_game-theory_using_bloodbowl/game/",
+                companion: {
+                    icon: "🤖",
+                    title: "LLM Game-Theory & Constraint Modeling Framework",
+                    journal: "AI Assisted Tactical Reasoning",
+                    url: "https://github.com/dr-richard-barker/Training_LLM_game-theory_using_bloodbowl"
+                },
                 questions: {
                     pre: [
                         { id: "q1", type: "range", min: 1, max: 100, label: "Adaptability Index", text: "Estimate (0-100%): What percentage of mission success relies on on-the-fly adaptability versus rigid pre-planning?" },
@@ -289,6 +426,12 @@
                 subtitle: "Vacuum-Environment Resource Conflict",
                 scenario: "This advanced desktop simulator explores resource extraction and asset defense in a strict lunar vacuum setting. Built on the open-source OpenRA engine, users must account for the unique physics and logistical challenges of managing supply lines without an atmosphere.",
                 url: "https://dr-richard-barker.github.io/Lunar_Red_Alert/",
+                companion: {
+                    icon: "🚀",
+                    title: "Space-Age Vacuum RTS Total Conversion Codebase",
+                    journal: "OpenRA Lunar Engine",
+                    url: "https://github.com/dr-richard-barker/Lunar_Red_Alert"
+                },
                 questions: {
                     pre: [
                         { id: "q1", type: "range", min: 1, max: 5, label: "Vulnerability Assessment", text: "On a scale of 1-5, rate the anticipated vulnerability of extended supply lines in a vacuum environment." },
@@ -307,6 +450,12 @@
                 subtitle: "Zoning Interdependency & Infrastructure Network Growth",
                 scenario: "Founding a lunar colony means committing capital before you understand demand. This simulator models an in-situ resource utilization (ISRU) settlement in the shape of a classic zoning city-builder: you designate Habitation, Trade and Industrial ground and the colony develops it on its own, but only where a road, power or water network genuinely reaches it. As the settlement fills its surveyed charter, you must decide when to fund an expensive survey expansion versus mining and launching resources home for revenue.",
                 url: "https://dr-richard-barker.github.io/LunarSims/city/",
+                companion: {
+                    icon: "🌕",
+                    title: "Lunar Sims Management Suite",
+                    journal: "In-situ Lunar Growth Simulation",
+                    url: "https://dr-richard-barker.github.io/LunarSims/"
+                },
                 questions: {
                     pre: [
                         { id: "q1", type: "range", min: 1, max: 5, label: "Zoning Hypothesis", text: "Rate your agreement (1=Strongly Disagree, 5=Strongly Agree): 'A colony can zone Habitation ground first and add Trade/Industrial capacity later without slowing its growth.'" },
@@ -322,6 +471,7 @@
 
         let currentModuleIndex = 0;
         let researchData = JSON.parse(localStorage.getItem('cose_research_data')) || {};
+        let activeScopeFilter = 'all';
 
         function saveData(moduleId, phase, questionId, value) {
             if (!researchData[moduleId]) researchData[moduleId] = {};
@@ -401,7 +551,7 @@
                     <div class="flex items-center gap-3 min-w-0">
                         <span class="text-xl shrink-0">${mod.icon}</span>
                         <div class="min-w-0">
-                            <div class="font-medium text-sm truncate">${mod.title}</div>
+                            <div class="font-medium text-xs sm:text-sm truncate">${mod.title}</div>
                             <div class="text-[10px] uppercase tracking-wider opacity-70">Module 0${index + 1}</div>
                         </div>
                     </div>
@@ -417,20 +567,20 @@
             if (!module.questions || !module.questions[phase]) return '';
 
             let html = `
-                <div class="bg-space-800 border border-space-700 rounded-xl p-6 shadow-lg mb-8">
+                <div class="bg-space-800 border border-space-700 rounded-xl p-5 sm:p-6 shadow-lg mb-8">
                     <div class="border-b border-space-700 pb-4 mb-6">
-                        <h3 class="text-xl font-bold text-space-highlight">${title}</h3>
-                        <p class="text-sm text-space-text mt-1">${description}</p>
+                        <h3 class="text-lg sm:text-xl font-bold text-space-highlight">${title}</h3>
+                        <p class="text-xs sm:text-sm text-space-text mt-1">${description}</p>
                     </div>
-                    <div class="space-y-8">
+                    <div class="space-y-6 sm:space-y-8">
             `;
 
             module.questions[phase].forEach(q => {
                 const val = getData(module.id, phase, q.id, q.type, q.min);
                 
-                html += `<div class="bg-space-900/50 p-5 rounded-lg border border-space-700/50">
-                            <label class="block text-space-accent font-semibold text-sm mb-2 uppercase tracking-wide">${q.label}</label>
-                            <p class="text-space-highlight text-base mb-4">${q.text}</p>`;
+                html += `<div class="bg-space-900/50 p-4 sm:p-5 rounded-lg border border-space-700/50">
+                            <label class="block text-space-accent font-semibold text-xs sm:text-sm mb-2 uppercase tracking-wide">${q.label}</label>
+                            <p class="text-space-highlight text-sm sm:text-base mb-4">${q.text}</p>`;
 
                 if (q.type === 'range') {
                     html += `
@@ -441,14 +591,14 @@
                                 oninput="saveData('${module.id}', '${phase}', '${q.id}', this.value)">
                             <span class="text-xs text-space-text font-medium">${q.max}</span>
                         </div>
-                        <div class="text-center mt-2 text-sm text-space-text">
-                            Current Value: <span id="val_${module.id}_${phase}_${q.id}" class="text-space-accent font-bold text-lg">${val}</span>
+                        <div class="text-center mt-2 text-xs sm:text-sm text-space-text">
+                            Current Rating: <span id="val_${module.id}_${phase}_${q.id}" class="text-space-accent font-bold text-base sm:text-lg">${val}</span>
                         </div>
                     `;
                 } else if (q.type === 'text') {
                     html += `
                         <textarea 
-                            class="w-full bg-space-900 border border-space-700 rounded-lg p-3 text-space-highlight text-sm focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-all resize-y"
+                            class="w-full bg-space-900 border border-space-700 rounded-lg p-3 text-space-highlight text-xs sm:text-sm focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-all resize-y"
                             rows="3"
                             placeholder="Enter your detailed observations here..."
                             onchange="saveData('${module.id}', '${phase}', '${q.id}', this.value)"
@@ -469,19 +619,38 @@
 
             const container = document.getElementById('mainContent');
             
+            let companionHtml = '';
+            if (module.companion) {
+                companionHtml = `
+                    <div class="mt-4 p-4 bg-space-800 border border-space-700 rounded-xl flex items-center justify-between gap-4 flex-wrap shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">${module.companion.icon}</span>
+                            <div>
+                                <span class="text-[10px] text-space-accent uppercase font-bold tracking-wider">${module.companion.journal}</span>
+                                <div class="text-xs sm:text-sm text-space-highlight font-semibold">${module.companion.title}</div>
+                            </div>
+                        </div>
+                        <a href="${module.companion.url}" target="_blank" rel="noopener noreferrer" class="text-xs bg-space-700 hover:bg-space-accent hover:text-white px-3.5 py-2 rounded-lg transition-all font-semibold flex items-center gap-1.5 shadow-sm">
+                            Explore Companion Research <span>↗</span>
+                        </a>
+                    </div>
+                `;
+            }
+
             let html = `
                 <!-- Header/Briefing -->
-                <div class="mb-10 animate-fadeIn">
+                <div class="mb-8 sm:mb-10 animate-fadeIn">
                     <div class="flex items-center gap-4 mb-4">
-                        <span class="text-5xl shrink-0">${module.icon}</span>
+                        <span class="text-4xl sm:text-5xl shrink-0">${module.icon}</span>
                         <div>
-                            <h2 class="text-4xl font-extrabold text-space-highlight tracking-tight leading-tight">${module.title}</h2>
-                            <h3 class="text-lg text-space-accent font-medium mt-1">${module.subtitle}</h3>
+                            <h2 class="text-2xl sm:text-4xl font-extrabold text-space-highlight tracking-tight leading-tight">${module.title}</h2>
+                            <h3 class="text-sm sm:text-lg text-space-accent font-medium mt-1">${module.subtitle}</h3>
                         </div>
                     </div>
-                    <div class="bg-space-900 border-l-4 border-space-accent p-5 rounded-r-lg text-space-highlight leading-relaxed text-lg shadow-inner">
+                    <div class="bg-space-900 border-l-4 border-space-accent p-4 sm:p-5 rounded-r-lg text-space-highlight leading-relaxed text-sm sm:text-base shadow-inner">
                         ${module.scenario}
                     </div>
+                    ${companionHtml}
                 </div>
             `;
 
@@ -494,21 +663,21 @@
 
             // The External Launchpad (Split Screen Interface)
             html += `
-                <div class="relative bg-gradient-to-r from-space-800 to-space-900 border border-space-700 rounded-xl p-8 my-12 text-center overflow-hidden shadow-2xl group">
+                <div class="relative bg-gradient-to-r from-space-800 to-space-900 border border-space-700 rounded-xl p-6 sm:p-8 my-8 sm:my-12 text-center overflow-hidden shadow-2xl group">
                     <div class="absolute inset-0 bg-space-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <h3 class="text-2xl font-bold text-space-highlight mb-2 relative z-10">Ready to Test Your Hypothesis?</h3>
-                    <p class="text-space-text mb-6 max-w-xl mx-auto relative z-10">Launch the high-fidelity simulator. The environment can be played in split-screen on the right, or opened in a new tab.</p>
+                    <h3 class="text-xl sm:text-2xl font-bold text-space-highlight mb-2 relative z-10">Ready to Test Your Hypothesis?</h3>
+                    <p class="text-xs sm:text-sm text-space-text mb-6 max-w-xl mx-auto relative z-10">Launch the high-fidelity simulator. The environment can be played in split-screen on the right, or opened in a new tab.</p>
                     
-                    <div class="flex flex-wrap justify-center gap-4 relative z-10">
+                    <div class="flex flex-wrap justify-center gap-3 sm:gap-4 relative z-10">
                         <button onclick="launchSimulator('${module.url}', '${module.title}', '${module.icon}')"
-                                class="inline-flex items-center gap-2 bg-space-accent text-white px-8 py-4 rounded-full font-bold text-lg hover:brightness-110 hover:scale-105 transition-all duration-300 shadow-lg">
+                                class="inline-flex items-center gap-2 bg-space-accent text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-bold text-sm sm:text-base hover:brightness-110 hover:scale-105 transition-all duration-300 shadow-lg">
                             Launch Split-Screen
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 00-4-4H3m18 0h-2a4 4 0 00-4 4v2m0 0l-3-3m3 3l3-3M9 17l-3-3m3 3L6 14"></path></svg>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 00-4-4H3m18 0h-2a4 4 0 00-4 4v2m0 0l-3-3m3 3l3-3M9 17l-3-3m3 3L6 14"></path></svg>
                         </button>
                         <a href="${module.url}" target="_blank" rel="noopener noreferrer" 
-                           class="inline-flex items-center gap-2 bg-space-700 text-space-highlight px-8 py-4 rounded-full font-bold text-lg hover:bg-space-700/80 transition-all duration-300 border border-space-700 shadow-md">
+                           class="inline-flex items-center gap-2 bg-space-700 text-space-highlight px-6 py-3 sm:px-8 sm:py-4 rounded-full font-bold text-sm sm:text-base hover:bg-space-700/80 transition-all duration-300 border border-space-700 shadow-md">
                             Play in New Tab
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                         </a>
                     </div>
                 </div>
@@ -603,6 +772,123 @@
         function initThemeIcon() {
             const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
             document.getElementById('themeToggleBtn').textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // CoSE Drawer Logic
+        function toggleCoseDrawer(show) {
+            const drawer = document.getElementById('coseDrawer');
+            const backdrop = document.getElementById('drawerBackdrop');
+            const isOpen = drawer.classList.contains('drawer-open');
+            const shouldOpen = show !== undefined ? show : !isOpen;
+
+            if (shouldOpen) {
+                drawer.classList.remove('drawer-closed');
+                drawer.classList.add('drawer-open');
+                backdrop.classList.remove('hidden');
+                setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+                renderDrawerProjects();
+                document.getElementById('projectSearchInput').focus();
+            } else {
+                drawer.classList.remove('drawer-open');
+                drawer.classList.add('drawer-closed');
+                backdrop.classList.add('opacity-0');
+                setTimeout(() => backdrop.classList.add('hidden'), 300);
+            }
+        }
+
+        // Keyboard listener for Escape key to close drawer
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                toggleCoseDrawer(false);
+            }
+        });
+
+        function setScopeFilter(scope) {
+            activeScopeFilter = scope;
+            document.querySelectorAll('#scopeFilterContainer button').forEach(btn => {
+                if (btn.dataset.scope === scope) {
+                    btn.className = 'scope-btn px-2.5 py-1 rounded bg-space-accent text-white font-medium shadow-sm transition-all';
+                } else {
+                    btn.className = 'scope-btn px-2.5 py-1 rounded bg-space-700 text-space-text hover:text-space-highlight font-medium transition-all';
+                }
+            });
+            renderDrawerProjects();
+        }
+
+        function filterProjects() {
+            renderDrawerProjects();
+        }
+
+        function renderDrawerProjects() {
+            const container = document.getElementById('drawerProjectList');
+            const query = (document.getElementById('projectSearchInput').value || '').toLowerCase().trim();
+            container.innerHTML = '';
+
+            if (!window.BARKER_SITES || !window.BARKER_SITES.groups) {
+                container.innerHTML = '<div class="text-center p-8 text-space-text text-sm">Registry loading or offline.</div>';
+                return;
+            }
+
+            let allowedIds = null;
+            if (activeScopeFilter !== 'all' && window.BARKER_SITES.scopes && window.BARKER_SITES.scopes[activeScopeFilter]) {
+                allowedIds = new Set(window.BARKER_SITES.scopes[activeScopeFilter].ids || []);
+            }
+
+            let totalMatches = 0;
+
+            window.BARKER_SITES.groups.forEach(grp => {
+                let filteredItems = grp.items.filter(item => {
+                    if (allowedIds && !allowedIds.has(item.id)) return false;
+                    if (query) {
+                        const matchTitle = (item.title || '').toLowerCase().includes(query);
+                        const matchDesc = (item.desc || '').toLowerCase().includes(query);
+                        const matchId = (item.id || '').toLowerCase().includes(query);
+                        return matchTitle || matchDesc || matchId;
+                    }
+                    return true;
+                });
+
+                if (filteredItems.length > 0) {
+                    totalMatches += filteredItems.length;
+                    const groupEl = document.createElement('div');
+                    groupEl.className = 'space-y-3';
+                    
+                    let itemsHtml = filteredItems.map(item => `
+                        <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
+                           class="block p-3 rounded-xl bg-space-900/60 border border-space-700/70 hover:border-space-accent hover:bg-space-900 transition-all duration-200 group">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-2.5 min-w-0">
+                                    <span class="text-lg shrink-0">${item.emoji || '🚀'}</span>
+                                    <h4 class="font-bold text-xs sm:text-sm text-space-highlight group-hover:text-space-accent transition-colors truncate">${item.title}</h4>
+                                </div>
+                                <span class="text-space-accent text-xs shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
+                            </div>
+                            <p class="text-[11px] sm:text-xs text-space-text mt-1.5 line-clamp-2 leading-relaxed">${item.desc}</p>
+                        </a>
+                    `).join('');
+
+                    groupEl.innerHTML = `
+                        <div class="flex items-center justify-between border-b border-space-700/60 pb-1.5">
+                            <h3 class="text-xs font-bold text-space-accent uppercase tracking-wider">${grp.name}</h3>
+                            <span class="text-[10px] text-space-text font-medium">${filteredItems.length}</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            ${itemsHtml}
+                        </div>
+                    `;
+                    container.appendChild(groupEl);
+                }
+            });
+
+            if (totalMatches === 0) {
+                container.innerHTML = `
+                    <div class="text-center p-8 text-space-text space-y-2">
+                        <div class="text-3xl">🔭</div>
+                        <p class="text-sm font-semibold">No matching projects found</p>
+                        <p class="text-xs text-space-text">Try adjusting your search query or switching scope filters.</p>
+                    </div>
+                `;
+            }
         }
 
         // Initialize App
