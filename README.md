@@ -40,11 +40,11 @@ Through the **Collaborative Science Environment (CoSE)**, my lab builds open-sou
 
 ### 1. Spaceflight Plant Multi-Omics & 3D Atlases
 Grounded in real NASA Open Science Data Repository (OSDR) spaceflight data and peer-reviewed literature.
-* **[Photorespiration Multi-Omics Microgravity](https://dr-richard-barker.github.io/Photorespiration_multiomics_microgravity/)** — Gas-transport FvCB model predicting the Arabidopsis spaceflight transcriptome across 6 flight studies (*npj Microgravity*).
+* **[Photorespiration Multi-Omics Microgravity](https://dr-richard-barker.github.io/Photorespiration_multiomics_microgravity/)** — Gas-transport FvCB model predicting the Arabidopsis spaceflight transcriptome across 6 flight studies (manuscript in preparation for *npj Microgravity*).
 * **[Arabidopsis 3D Atlas](https://dr-richard-barker.github.io/arabidopsis-atlas/)** — Organ-selectable 3D model of *Arabidopsis thaliana* connected directly to OSDR transcriptomics.
-* **[Rice Anatomical Atlas](https://dr-richard-barker.github.io/rice-atlas/)** — 3D and genomic atlas for rice (*Oryza sativa*) targeting cereal space agriculture.
+* **[Rice Atlas](https://dr-richard-barker.github.io/rice-atlas/)** — Procedurally generated 3D rice-plant viewer: a conceptual model with no measured *Oryza sativa* data, and the starting point for the Arabidopsis Atlas.
 * **[VEG-05 Integrated Omics](https://dr-richard-barker.github.io/veg05-integrated-omics/)** — Multi-omics analysis of ISS dwarf tomato (OSD-767 host transcriptome $\times$ OSD-766 microbiome).
-* **[Tropism Autodecoder 2026](https://dr-richard-barker.github.io/Tropism_autodecoder_2026/)** — Auto-decoder pipeline deconvolving 1,337 OSDR/GEO plant tropism samples with single-cell resolution.
+* **[Tropism Autodecoder 2026](https://dr-richard-barker.github.io/Tropism_autodecoder_2026/)** — Auto-decoder pipeline deconvolving 1,337 OSDR/GEO bulk RNA-seq samples into cell types using the Salk single-nucleus Arabidopsis atlas.
 * **[Plant Radiation Kinetic Landscape](https://dr-richard-barker.github.io/Plant_response_to_radiation/)** — Trajectory analysis resolving plant ionizing-radiation responses across 10 OSDR studies.
 * **[DeepSpace Seed Stress Decoder](https://dr-richard-barker.github.io/deepspace-seed-stress-decoder/)** — Single-cell atlas identifying seed susceptibility to deep-space stressors.
 
@@ -52,15 +52,15 @@ Grounded in real NASA Open Science Data Repository (OSDR) spaceflight data and p
 Modeling the physical forces governing boundary-layer gas transport and quantum-level phenomena in microgravity.
 * **[Quantum Biology Atlas](https://dr-richard-barker.github.io/quantum-biology-atlas/)** — Cross-species ontology and SBGN pathway maps for radical-pair, Fe-S, and flavin mechanisms linked to NASA OSDR.
 * **[Lunar LEAF — Gas Exchange CFD](https://dr-richard-barker.github.io/LunarLeaf-CFD/)** — Validated in-browser lattice-Boltzmann CFD model of gravity-dependent gas exchange boundary layers from leaf to canopy.
-* **[Spaceflight Hardware CFD](https://dr-richard-barker.github.io/spaceflight-plant-hardware-cfd/)** — OpenFOAM 3D CFD scaling across five flight chambers (BRIC, CARA, VEGGIE) across 4 gravity regimes.
+* **[Spaceflight Hardware CFD](https://dr-richard-barker.github.io/spaceflight-plant-hardware-cfd/)** — OpenFOAM case setups for five flight chambers (BRIC, CARA, VEGGIE) across 4 gravity regimes; solver outputs are not yet in the repository.
 * **[Microgreen Chamber CFD](https://dr-richard-barker.github.io/microgreen-chamber-cfd/)** — 3D internal-flow CFD of a microgreen chamber under varying gravity vectors.
-* **[Statolith Physics Simulator](https://dr-richard-barker.github.io/Physics-simulator-for-statolith-modelling-/)** — Physical simulation of amyloplast/statolith sedimentation in columella cells.
+* **[Statolith Physics Simulator](https://dr-richard-barker.github.io/Physics-simulator-for-statolith-modelling-/)** — Early-stage browser prototype for statolith sedimentation modelling (in development).
 * **[4D Geospace Explorer](https://dr-richard-barker.github.io/earth-magnetosphere-4d-viz/)** & **[Lunar Magnetic Biology](https://dr-richard-barker.github.io/lunar-magnetic-biology/)** — Modeling planetary magnetic anomalies and shielding for biological systems.
 
 ### 3. Bioregenerative Life Support (BLSS), Regolith & Agronomy
 Designing closed-loop ecosystems for sustainable lunar bases and deep-space missions.
-* **[Lunar Farm BLSS Study](https://dr-richard-barker.github.io/LunarFarm-BLSS/)** — Reproducible study analyzing human-in-the-loop closed carbon loops (MELiSSA framework companion to Lunar Farm).
-* **[Sintered Regolith for BLSS](https://dr-richard-barker.github.io/lunar-regolith-blss-review/)** — *From Dust to Bio-Infrastructure: Sintered Regolith Ceramics for Lunar BLSS* (*npj Microgravity* review).
+* **[Lunar Farm BLSS Study](https://dr-richard-barker.github.io/LunarFarm-BLSS/)** — Reproducible study analyzing human-in-the-loop closed carbon loops (companion to Lunar Farm).
+* **[Sintered Regolith for BLSS](https://dr-richard-barker.github.io/lunar-regolith-blss-review/)** — *From Dust to Bio-Infrastructure: Sintered Regolith Ceramics for Lunar BLSS* (review in preparation for *npj Microgravity*).
 * **[AstroRegolith Database](https://dr-richard-barker.github.io/AstroRegolith/)** — Open database and growth-anchored reanalysis of plant growth in lunar, Martian, and asteroid regolith.
 * **[Rothamsted Broadbalk Explorer](https://dr-richard-barker.github.io/Rothamsted_BroadBaulk/)** — 180+ years of continuous wheat crop yields and climate overlays informing space crop reliability.
 * **[ARES Astromaterials Curation Client](https://dr-richard-barker.github.io/ares-curation/)** — FAIR client for NASA Apollo samples, planetary simulants, and 3D astromaterials.
@@ -93,7 +93,7 @@ The **[CoSE Academy Portal](https://dr-richard-barker.github.io/dr-richard-barke
 
 ## 🧰 Open-Source Laboratory & Phenotyping Tools
 
-* **[CoSE Cell Segmenter](https://dr-richard-barker.github.io/cose-cell-segmenter/)** — Desktop napari + Cellpose GUI for automated cell, nucleus, and fungal spore segmentation.
+* **[CoSE Cell Segmenter](https://github.com/dr-richard-barker/cose-cell-segmenter)** — Desktop napari + Cellpose GUI for automated cell, nucleus, and fungal spore segmentation.
 * **[AstroRoot](https://dr-richard-barker.github.io/astroroot/)** & **[AstroRoot Painter](https://dr-richard-barker.github.io/astroroot-painter/)** — In-browser root-image phenotyping and human-in-the-loop model training for classrooms.
 * **[Germinator AI](https://dr-richard-barker.github.io/germinator-ai/)** — Time-lapse seed germination scoring and kinetic curve fitting in the browser.
 * **[CoSE FIJI Bench](https://dr-richard-barker.github.io/cose-fiji/)** — ImageJ 1.54 in the browser with SmartRoot and plant-phenotyping presets.
