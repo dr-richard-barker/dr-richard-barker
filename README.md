@@ -9,7 +9,7 @@
 [![Astronaut Health](https://img.shields.io/badge/Astronaut_Health-Biomarkers_%26_Nutrition-E74C3C?style=for-the-badge&logo=heartbeat&logoColor=white)](https://dr-richard-barker.github.io/AstronautHealth/)
 
 **Space Biology Researcher · Bioinformatician · Scientific Game Designer**  
-*Collaborating with Purdue University (Lunar LEAF / Artemis III payload development) & the NASA GeneLab / OSDR Analysis Working Groups (AWG).*  
+*Science definition team member, [LEAF (Lunar Effects on Agricultural Flora)](https://www.spacelabtech.com/lunar-payload-leaf---lunar-effects-on-agricultural-flora.html), an Artemis III payload · Chair, NASA GeneLab Plant Analysis Working Group.*  
 Director of **[The Collaborative Science Environment (CoSE)](https://www.cosecloud.com)**.
 
 ---
