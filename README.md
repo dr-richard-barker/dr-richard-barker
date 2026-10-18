@@ -70,7 +70,7 @@ Designing closed-loop ecosystems for sustainable lunar bases and deep-space miss
 Translating spaceflight multi-omics into preventive health strategies for human crews.
 * **[Muscle Atrophy Multi-Omics](https://dr-richard-barker.github.io/Muscle-Atrophy-Multi-Omics-OSDR/)** — Multi-species transcriptomic analysis of disuse/spaceflight muscle atrophy and plant-based countermeasure screens.
 * **[Astronaut Oncogene Biomarkers](https://dr-richard-barker.github.io/astronaut-oncogene-biomarkers/)** — Cross-tissue meta-analysis of convergent oncogenic pathways in astronauts across OSDR and JAXA.
-* **[Astronaut Flavonoid Reversal Screen](https://dr-richard-barker.github.io/Astronaut_flavenoids_and_biomarkers/)** — Identifying food-derived flavonoid compounds that reverse spaceflight oncogenic expression via LINCS L1000.
+* **[JAXA Astronaut Cell-Free RNA Data](https://dr-richard-barker.github.io/Astronaut_flavenoids_and_biomarkers/)** — JAXA astronaut plasma cell-free RNA data (OSD-530) and iDEP figures. The flavonoid reversal screen that used to be here was withdrawn in October 2026.
 * **[Astronaut Nutritional Countermeasures](https://dr-richard-barker.github.io/Astronaut_brain_food/)** — Translating consensus spaceflight transcriptomic signatures into dietary interventions.
 
 ---
