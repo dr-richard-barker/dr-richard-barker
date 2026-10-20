@@ -2,6 +2,10 @@
 
 <div align="center">
 
+[![Academic CV](https://img.shields.io/badge/Academic_CV-Search_Committees_%26_Funding-004053?style=for-the-badge&logo=orcid&logoColor=white)](https://dr-richard-barker.github.io/academic/)
+[![Public Science](https://img.shields.io/badge/Public_Science-Overview_%26_Stories-0f7f9f?style=for-the-badge&logo=safari&logoColor=white)](https://dr-richard-barker.github.io/general/)
+[![Tools & Demos](https://img.shields.io/badge/Tools_%26_Demos-100%2B_Live_Apps-5590ad?style=for-the-badge&logo=github&logoColor=white)](https://dr-richard-barker.github.io/projects/)
+
 [![CoSE Cloud](https://img.shields.io/badge/CoSE_Cloud-Umbrella_Hub-5B56D6?style=for-the-badge&logo=rocket&logoColor=white)](https://dr-richard-barker.github.io/CoSE_Cloud/Hub/)
 [![AstroBotany](https://img.shields.io/badge/AstroBotany-Plant_Space_Biology-2F8F5F?style=for-the-badge&logo=sprout&logoColor=white)](https://dr-richard-barker.github.io/AstroBotany/)
 [![Deep Space Ag](https://img.shields.io/badge/Deep_Space_Ag-BLSS_%26_Life_Support-E67E22?style=for-the-badge&logo=satellite&logoColor=white)](https://dr-richard-barker.github.io/DeepSpaceAg/)
