@@ -166,18 +166,18 @@
     </header>
 
     <!-- Main Workspace: Split layout container -->
-    <main class="flex-1 flex overflow-hidden relative">
+    <main class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
         
-        <!-- Sidebar Navigation (Course Modules) -->
-        <aside class="w-64 sm:w-72 bg-space-800 border-r border-space-700 flex flex-col shrink-0 z-10 shadow-lg">
-            <div class="p-3 sm:p-4 border-b border-space-700 flex justify-between items-center">
+        <!-- Sidebar Navigation (Course Modules; below md: a strip above the lesson, scrolling sideways) -->
+        <aside class="w-full md:w-72 bg-space-800 border-b md:border-b-0 md:border-r border-space-700 flex flex-col shrink-0 z-10 shadow-lg">
+            <div class="px-3 py-2 md:p-4 border-b border-space-700 flex justify-between items-center">
                 <h2 class="text-xs sm:text-sm font-semibold text-space-text uppercase tracking-wider">Course Modules</h2>
                 <span class="text-[10px] px-1.5 py-0.5 rounded bg-space-900 text-space-accent font-semibold">8 Missions</span>
             </div>
-            <nav id="moduleNav" class="flex-1 overflow-y-auto p-2 space-y-1">
+            <nav id="moduleNav" class="flex gap-1.5 overflow-x-auto p-2 [&::-webkit-scrollbar]:h-1 md:block md:flex-1 md:overflow-y-auto md:space-y-1">
                 <!-- Navigation items injected via JS -->
             </nav>
-            <div class="p-3 border-t border-space-700 text-center">
+            <div class="px-3 py-1.5 md:p-3 border-t border-space-700 text-center">
                 <a href="https://github.com/dr-richard-barker" target="_blank" rel="noopener noreferrer" class="text-[11px] text-space-text hover:text-space-accent transition-colors flex items-center justify-center gap-1">
                     <span>🐙</span> dr-richard-barker Portfolio
                 </a>
@@ -490,7 +490,7 @@
                 }
                 
                 const btn = document.createElement('button');
-                btn.className = `w-full text-left p-3 rounded-lg mb-1 flex items-center justify-between gap-3 transition-all duration-200 ${isActive ? 'bg-space-700 border-l-4 border-space-accent text-space-highlight font-medium shadow-md' : 'text-space-text hover:bg-space-900 hover:text-space-highlight border-l-4 border-transparent'}`;
+                btn.className = `shrink-0 md:w-full text-left p-2 md:p-3 rounded-lg md:mb-1 flex items-center justify-between gap-3 transition-all duration-200 ${isActive ? 'bg-space-700 border-l-4 border-space-accent text-space-highlight font-medium shadow-md' : 'text-space-text hover:bg-space-900 hover:text-space-highlight border-l-4 border-transparent'}`;
                 btn.onclick = () => loadModule(index);
                 btn.innerHTML = `
                     <div class="flex items-center gap-3 min-w-0">
@@ -662,17 +662,17 @@
             
             // Responsive width allocation
             if (window.innerWidth < 768) {
-                // Mobile: Full screen overlay
-                pane.classList.remove('w-[55vw]', 'w-[70vw]');
+                // Mobile: Full screen overlay ('relative' would override 'fixed')
+                pane.classList.remove('w-[55vw]', 'w-[70vw]', 'relative');
                 pane.classList.add('w-full', 'fixed', 'inset-0', 'z-50');
             } else if (window.innerWidth < 1024) {
                 // Tablet: Larger split
                 pane.classList.remove('w-full', 'fixed', 'inset-0', 'z-50', 'w-[55vw]');
-                pane.classList.add('w-[70vw]');
+                pane.classList.add('w-[70vw]', 'relative');
             } else {
                 // Desktop: Standard split
                 pane.classList.remove('w-full', 'fixed', 'inset-0', 'z-50', 'w-[70vw]');
-                pane.classList.add('w-[55vw]');
+                pane.classList.add('w-[55vw]', 'relative');
             }
             
             // Highlight phase 2/scroll down a bit to orient the user
