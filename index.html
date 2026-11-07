@@ -172,7 +172,7 @@
         <aside class="w-full md:w-72 bg-space-800 border-b md:border-b-0 md:border-r border-space-700 flex flex-col shrink-0 z-10 shadow-lg">
             <div class="px-3 py-2 md:p-4 border-b border-space-700 flex justify-between items-center">
                 <h2 class="text-xs sm:text-sm font-semibold text-space-text uppercase tracking-wider">Course Modules</h2>
-                <span class="text-[10px] px-1.5 py-0.5 rounded bg-space-900 text-space-accent font-semibold">8 Missions</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-space-900 text-space-accent font-semibold">9 Missions</span>
             </div>
             <nav id="moduleNav" class="flex gap-1.5 overflow-x-auto p-2 [&::-webkit-scrollbar]:h-1 md:block md:flex-1 md:overflow-y-auto md:space-y-1">
                 <!-- Navigation items injected via JS -->
@@ -410,6 +410,30 @@
                     post: [
                         { id: "q1", type: "range", min: 1, max: 5, label: "Revised Siting Hypothesis", text: "After founding a settlement at two different latitudes, rate your agreement: 'The power-versus-water siting trade-off that applies at a lunar pole applies just as strongly to a settlement founded near the equator.'" },
                         { id: "q2", type: "text", label: "Observed Budget Failure", text: "Which department did you actually underfund, what failed as a result, and how long did it take you to trace the symptom back to the budget?" }
+                    ]
+                }
+            },
+            {
+                id: "mod_09",
+                icon: "🐕",
+                title: "Regolith Rovers",
+                subtitle: "Ballistics Under Variable Gravity Vectors",
+                scenario: "A projectile in vacuum feels nothing but gravity, so its path is set entirely by its launch speed, its launch angle, and the size and direction of g. In this turn-based artillery simulator, teams of Space Robot Dogs fire across destructible moon-base terrain while you control gravity itself: one button switches it between the Moon (1.62 m/s²), Mars (3.73 m/s²) and Earth (9.81 m/s²), and a compass points it in any direction. On flat ground a shot travels v²·sin2θ/g and stays aloft for 2v·sinθ/g, so the same launch flies about six times farther on the Moon than on Earth; rotate the gravity vector and the whole arc rotates with it. The training aid draws the start of each predicted arc and reports the launch speed in metres per second, and a thruster whose thrust-to-weight ratio falls below one under Earth gravity shows why lift-off depends on g.",
+                url: "https://dr-richard-barker.github.io/lunar-arcade/games/regolith-rovers/?training=1",
+                companion: {
+                    icon: "🌱",
+                    title: "Physics Simulator for Statolith Modelling",
+                    journal: "Plant gravity sensing under altered g",
+                    url: "https://dr-richard-barker.github.io/Physics-simulator-for-statolith-modelling-/"
+                },
+                questions: {
+                    pre: [
+                        { id: "q1", type: "range", min: 1, max: 10, label: "Range Estimate", text: "Estimate (1-10): fired at the same speed and angle on flat ground, how many times farther does a projectile travel on the Moon than on Earth?" },
+                        { id: "q2", type: "text", label: "Rotated Gravity", text: "Predict what happens to a projectile's path if gravity is turned 90° to point sideways instead of down. Where would a shot that normally lands 40 m down-range end up?" }
+                    ],
+                    post: [
+                        { id: "q1", type: "range", min: 1, max: 10, label: "Revised Range Estimate", text: "After playing, estimate again (1-10): at the same speed and angle, how many times farther does a projectile travel on the Moon than on Earth?" },
+                        { id: "q2", type: "text", label: "Using the Compass", text: "Describe one shot where you changed the planet or turned the gravity compass to reach a target, and explain in terms of g why it worked." }
                     ]
                 }
             }
