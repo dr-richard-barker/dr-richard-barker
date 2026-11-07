@@ -119,3 +119,5 @@ The **[CoSE Academy Portal](https://dr-richard-barker.github.io/dr-richard-barke
 ---
 
 ![Dr. Richard Barker - Pioneering Astro-Botany](Dr._Richard_Barker__Pioneering_Astro-Botany.png)
+
+<sub>AI-generated infographic (Gemini Notebook), August 2026. Its repository and contribution figures are as of 14 August 2026: 120 public repositories and 986 contributions in the preceding year.</sub>
