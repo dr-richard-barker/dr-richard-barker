@@ -35,7 +35,7 @@ Through the **Collaborative Science Environment (CoSE)**, my lab builds open-sou
 | ☁️ **CoSE Cloud** | Umbrella project directory and ecosystem hub connecting all CoSE space biology initiatives. | **[Launch CoSE Cloud](https://dr-richard-barker.github.io/CoSE_Cloud/Hub/)** |
 | 🌱 **AstroBotany** | Curated hub of plant space-biology projects: microgravity omics, gravitropism, and spaceflight growth chambers. | **[Launch AstroBotany](https://dr-richard-barker.github.io/AstroBotany/)** |
 | 🌾 **Deep Space Agriculture** | Closed-loop bioregenerative life support systems (BLSS), canopy gas exchange, and crop cultivation off Earth. | **[Launch DeepSpaceAg](https://dr-richard-barker.github.io/DeepSpaceAg/)** |
-| 🎮 **CoSE Academy Portal** | Interactive educational impact assessment portal featuring 7 lunar & Martian serious games with split-screen simulators. | **[Launch Academy Portal](https://dr-richard-barker.github.io/dr-richard-barker/)** |
+| 🎮 **CoSE Academy Portal** | Interactive educational impact assessment portal featuring 9 lunar & Martian serious games with split-screen simulators. | **[Launch Academy Portal](https://dr-richard-barker.github.io/dr-richard-barker/)** |
 | 🩺 **Astronaut Health** | Spaceflight oncogenic biomarker discovery, muscle atrophy multi-omics, and dietary flavonoid countermeasure screens. | **[Launch Astronaut Health](https://dr-richard-barker.github.io/AstronautHealth/)** |
 
 ---
@@ -44,7 +44,7 @@ Through the **Collaborative Science Environment (CoSE)**, my lab builds open-sou
 
 ### 1. Spaceflight Plant Multi-Omics & 3D Atlases
 Grounded in real NASA Open Science Data Repository (OSDR) spaceflight data and peer-reviewed literature.
-* **[Photorespiration Multi-Omics Microgravity](https://dr-richard-barker.github.io/Photorespiration_multiomics_microgravity/)** — Gas-transport FvCB model predicting the Arabidopsis spaceflight transcriptome across 6 flight studies (manuscript in preparation for *npj Microgravity*).
+* **[Photorespiration Multi-Omics Microgravity](https://dr-richard-barker.github.io/Photorespiration_multiomics_microgravity/)** — Gas-transport FvCB model predicting the Arabidopsis spaceflight transcriptome across five flight studies (six contrasts; manuscript in preparation for *npj Microgravity*).
 * **[Arabidopsis 3D Atlas](https://dr-richard-barker.github.io/arabidopsis-atlas/)** — Organ-selectable 3D model of *Arabidopsis thaliana* connected directly to OSDR transcriptomics.
 * **[Rice Atlas](https://dr-richard-barker.github.io/rice-atlas/)** — Procedurally generated 3D rice-plant viewer: a conceptual model with no measured *Oryza sativa* data, and the starting point for the Arabidopsis Atlas.
 * **[VEG-05 Integrated Omics](https://dr-richard-barker.github.io/veg05-integrated-omics/)** — Multi-omics analysis of ISS dwarf tomato (OSD-767 host transcriptome $\times$ OSD-766 microbiome).
@@ -56,7 +56,7 @@ Grounded in real NASA Open Science Data Repository (OSDR) spaceflight data and p
 Modeling the physical forces governing boundary-layer gas transport and quantum-level phenomena in microgravity.
 * **[Quantum Biology Atlas](https://dr-richard-barker.github.io/quantum-biology-atlas/)** — Cross-species ontology and SBGN pathway maps for radical-pair, Fe-S, and flavin mechanisms linked to NASA OSDR.
 * **[Lunar LEAF — Gas Exchange CFD](https://dr-richard-barker.github.io/LunarLeaf-CFD/)** — Validated in-browser lattice-Boltzmann CFD model of gravity-dependent gas exchange boundary layers from leaf to canopy.
-* **[Spaceflight Hardware CFD](https://dr-richard-barker.github.io/spaceflight-plant-hardware-cfd/)** — OpenFOAM case setups for five flight chambers (BRIC, CARA, VEGGIE) across 4 gravity regimes; solver outputs are not yet in the repository.
+* **[Spaceflight Hardware CFD](https://dr-richard-barker.github.io/spaceflight-plant-hardware-cfd/)** — OpenFOAM case setups for five flight chambers (VEGGIE, APH, CHROMEX/PGU, CARA, BRIC) across 4 gravity regimes; solver outputs are not yet in the repository.
 * **[Microgreen Chamber CFD](https://dr-richard-barker.github.io/microgreen-chamber-cfd/)** — 3D internal-flow CFD of a microgreen chamber under varying gravity vectors.
 * **[Statolith Physics Simulator](https://dr-richard-barker.github.io/Physics-simulator-for-statolith-modelling-/)** — Early-stage browser prototype for statolith sedimentation modelling (in development).
 * **[4D Geospace Explorer](https://dr-richard-barker.github.io/earth-magnetosphere-4d-viz/)** & **[Lunar Magnetic Biology](https://dr-richard-barker.github.io/lunar-magnetic-biology/)** — Modeling planetary magnetic anomalies and shielding for biological systems.
@@ -73,7 +73,7 @@ Designing closed-loop ecosystems for sustainable lunar bases and deep-space miss
 ### 4. Astronaut Health & Countermeasures
 Translating spaceflight multi-omics into preventive health strategies for human crews.
 * **[Muscle Atrophy Multi-Omics](https://dr-richard-barker.github.io/Muscle-Atrophy-Multi-Omics-OSDR/)** — Multi-species transcriptomic analysis of disuse/spaceflight muscle atrophy and plant-based countermeasure screens.
-* **[Astronaut Oncogene Biomarkers](https://dr-richard-barker.github.io/astronaut-oncogene-biomarkers/)** — Cross-tissue meta-analysis of convergent oncogenic pathways in astronauts across OSDR and JAXA.
+* **[Astronaut Oncogene Biomarkers](https://dr-richard-barker.github.io/astronaut-oncogene-biomarkers/)** — Planned cross-tissue meta-analysis testing for convergent oncogenic pathways in astronauts across OSDR and JAXA data (scaffold in place; analysis not yet run).
 * **[JAXA Astronaut Cell-Free RNA Data](https://dr-richard-barker.github.io/Astronaut_flavenoids_and_biomarkers/)** — JAXA astronaut plasma cell-free RNA data (OSD-530) and iDEP figures. The flavonoid reversal screen that used to be here was withdrawn in October 2026.
 * **[Astronaut Nutritional Countermeasures](https://dr-richard-barker.github.io/Astronaut_brain_food/)** — Translating consensus spaceflight transcriptomic signatures into dietary interventions.
 
@@ -92,6 +92,8 @@ The **[CoSE Academy Portal](https://dr-richard-barker.github.io/dr-richard-barke
 | **05** | 🏈 **Brute Bowl** | Stochastic probability, LLM reasoning & team resource allocation | [LLM Game Theory](https://github.com/dr-richard-barker/Training_LLM_game-theory_using_bloodbowl) |
 | **06** | ⚔️ **Lunar Red Alert** | Vacuum-environment logistics, real-time strategy & asset defense | [Lunar Red Alert](https://github.com/dr-richard-barker/Lunar_Red_Alert) |
 | **07** | 🏙️ **Artemis City** | ISRU zoning interdependency, road/power/water network bottlenecks | [LunarSims Suite](https://dr-richard-barker.github.io/LunarSims/) |
+| **08** | 🌗 **Lunar Metropolis** | Latitude-driven siting (power vs water) & departmental budget trade-offs | — |
+| **09** | 🐕 **Regolith Rovers** | Ballistics under Moon, Mars and Earth gravity, and a rotatable gravity vector | [Statolith Physics Simulator](https://dr-richard-barker.github.io/Physics-simulator-for-statolith-modelling-/) |
 
 ---
 
